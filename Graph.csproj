@@ -150,8 +150,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Alogorithm\" />
+    <Content Include="Alogorithm\Graph.cpp">
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
