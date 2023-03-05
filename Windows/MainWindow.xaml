@@ -1,0 +1,31 @@
+﻿<Window x:Class="Edges.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Edges"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Window.Static.Background}"
+        Height="450"
+        Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ComboBox Name="LeftSelectGraphInputMethod" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" SelectionChanged="LeftSelectGraphInputMethod_SelectionChanged"/>
+        <Frame x:Name="LeftFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+        <ComboBox Name="RightSelectGraphInputMethod" Grid.Column="1" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" SelectionChanged="RightSelectGraphInputMethod_SelectionChanged"/>
+        <Frame x:Name="RightFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+
+        <Button x:Name="VisualizationBtn" Grid.Row="2" Grid.ColumnSpan="2" Height="30" Width="150" Style="{DynamicResource ButtonBase}" Content="Визуализировать" Click="VisualizationBtn_Click"/>
+    </Grid>
+</Window>
