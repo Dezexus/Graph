@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Style/Dark/ComboBoxBase.xaml"/>
                 <ResourceDictionary Source="Style/Dark/Color.xaml"/>
                 <ResourceDictionary Source="Style/Dark/TextBoxBase.xaml"/>
+                <ResourceDictionary Source="Style/Dark/ScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
