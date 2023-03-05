@@ -28,18 +28,20 @@
             <TextBox x:Name="CountEdgesBox" Grid.Row="1" Grid.Column="1" Width="50" Height="30" Text="0" Style="{DynamicResource TextBoxBase}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="CountEdgesBoxAndCountVerticesBox_TextChanged"/>
         </Grid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel x:Name="ColumnNumbers" Orientation="Horizontal" Grid.Column="1"/>
-            <StackPanel x:Name="RowNumbers" Orientation="Vertical" Grid.Row="1" Margin="0,6,0,0"/>
-            <WrapPanel x:Name="Graph" Grid.Row="1" Grid.Column="1"/>
-        </Grid>
+        <ScrollViewer Grid.Row="1" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="ColumnNumbers" Orientation="Horizontal" Grid.Column="1"/>
+                <StackPanel x:Name="RowNumbers" Orientation="Vertical" Grid.Row="1" Margin="0,6,0,0"/>
+                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="Graph" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
