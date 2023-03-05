@@ -1,7 +1,6 @@
 ﻿using Graph.UserControls;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -10,11 +9,11 @@ namespace Edges.Windows
 {
     public partial class VisualizationGraphWindow : Window
     {
-        private List<List<short>> Matrix;
-        private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>();
-        private List<Line> Lines = new List<Line>();
-        private List<Ellipse> Loops = new List<Ellipse>();
-        private double Scale = 1;
+        private List<List<short>> Matrix; //Содержит граф как алгебраическую структуру, где m[0][0] - кол-во вершин
+        private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>(); //Вершины графа
+        private List<Line> Lines = new List<Line>(); //Рёбра графа
+        private List<Ellipse> Loops = new List<Ellipse>();//Петли графа (в случаи, если они существуют)
+        private double Scale = 1;//Масштаб графа
 
         public VisualizationGraphWindow(List<List<short>> matrix)
         {
@@ -22,39 +21,36 @@ namespace Edges.Windows
             Matrix = matrix;
         }
 
-        /*
-         Рандомно выбирать координаты и при этом для каждого следующего запрещать координаты в радиосе 100, от предыдщих
-         */
-
         #region Events
+        /// <summary>
+        /// Создаёт визуализацию графа при загрузке окна
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
-                    short n = Matrix[0][0];
-                    short h = 50;
-                    short v = 50;
-                    for (short i = 0; i < n; i++) {
+                    short n = Matrix[0][0];//Кол-во вершин в графе
+                    short x = 50, y = 50;//Координаты первой вершин
+                    for (short i = 0; i < n; i++) {//Создаёт массив вершин
 
-                        if (i % 10 == 0 && i != 0) {
+                        if (i % 10 == 0 && i != 0) {//Переход на новую строку(По координатам)
 
-                            v += 100;
-                            h = 50;
+                            y += 100;
+                            x = 50;
                         }
-                        var vertex = new EllipseWithNumber(50, 50, h, v, "#888888", (short)(i+1));
+                        var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", (short)(i+1));
                         Vertexes.Add(vertex);
-                        h += 100;
+                        x += 100;
                     }
 
-                    for (short i = 1; i < Matrix.Count; i++) {
+                    for (short i = 1; i < Matrix.Count; i++) {//Создаёт массив линий(рёбер) между вершинами
 
-                        if (Vertexes[Matrix[i][0] - 1] == Vertexes[Matrix[i][1] - 1]) {
+                        if (Vertexes[Matrix[i][0] - 1] == Vertexes[Matrix[i][1] - 1]) {//Если 1-я и 2-я вершина совпадают, то с помощью эллипса создаёться петля
 
-                            double x = (Vertexes[Matrix[i][0] - 1].Margin.Left);
-                            double y = (Vertexes[Matrix[i][0] - 1].Margin.Top);
-
-                            Loops.Add(CreateLoop(50, 50, x, y));
+                            double x1 = (Vertexes[Matrix[i][0] - 1].Margin.Left);
+                            double y2 = (Vertexes[Matrix[i][0] - 1].Margin.Top);
+                            Loops.Add(CreateLoop(50, 50, x1, y2));
                         }
 
-                        var line = new Line { 
+                        var line = new Line { //Создание линии от центра 1-й першины, до центра 2-й
                             X1 = Vertexes[Matrix[i][0] - 1].Margin.Left + 25,
                             Y1 = Vertexes[Matrix[i][0] - 1].Margin.Top + 25,
                             X2 = Vertexes[Matrix[i][1] - 1].Margin.Left + 25,
@@ -65,6 +61,7 @@ namespace Edges.Windows
                         Lines.Add(line);
                     }
 
+                    //Вывод рёбер, петель и вершин на экран
                     foreach (var line in Lines)
                         Canva.Children.Add(line);
                     foreach (var loop in Loops)
@@ -73,17 +70,19 @@ namespace Edges.Windows
                         Canva.Children.Add(ellipse);
 
                 }
-
+        /// <summary>
+        /// Изменение масштаба графа при прокрутке колеса мыши
+        /// </summary>
         private void Window_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e) {
 
             if (e.Delta > 0) {
 
-                Scale -= -0.02;
+                Scale -= -0.05;
                 var scaleTransform = new ScaleTransform(Scale, Scale, 50, 50);
                 Canva.RenderTransform = scaleTransform;
             } else if (e.Delta < 0) {
 
-                Scale -= +0.02;
+                Scale -= +0.05;
                 var scaleTransform = new ScaleTransform(Scale, Scale, 50, 50);
                 Canva.RenderTransform = scaleTransform;
             }
@@ -92,7 +91,14 @@ namespace Edges.Windows
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width">Ширина эллипса</param>
+        /// <param name="height">Высота эллипса</param>
+        /// <param name="desiredCenterX">Координата центра эллипса по оси x</param>
+        /// <param name="desiredCenterY">Координата центра эллипса по оси y</param>
+        /// <returns>Возвращает эллипс с прозрачной заливкой и закрашенной границей</returns>
         Ellipse CreateLoop(double width, double height, double desiredCenterX, double desiredCenterY) {
 
             Ellipse ellipse = new Ellipse { Width = width, Height = height };
@@ -105,29 +111,32 @@ namespace Edges.Windows
             return ellipse;
         }
 
-
-
-
         #endregion
 
         #region MoveGraph
 
-        private Point? _movePoint;
-
+        private Point? _movePoint; //Координаты мыши относительно _Grid
+        /// <summary>
+        /// Меняет вид курсора на Hand и сохраняет координаты мыши относительно _Grid
+        /// </summary>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
 
             Cursor = Cursors.Hand;
             _movePoint = e.GetPosition(_Grid);
             _Grid.CaptureMouse();
         }
-
+        /// <summary>
+        /// Меняет вид курсора на Arrow и удаляет координаты мыши относительно _Grid
+        /// </summary>
         private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
 
             Cursor = Cursors.Arrow;
             _movePoint = null;
             _Grid.ReleaseMouseCapture();
         }
-
+        /// <summary>
+        /// Изменяет коордиты _Grid в след за координатами мыши
+        /// </summary>
         private void Window_MouseMove(object sender, MouseEventArgs e) {
 
             if (_movePoint == null)
