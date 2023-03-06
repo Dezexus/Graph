@@ -11,10 +11,10 @@ namespace Edges.Pages
 
     public partial class AdjacencyMatrixPage : Page
     {
-        private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");
-        private static readonly Regex regex0_1 = new Regex("[^0-1.-]+");
-        private int Dimension = 0;
-        public List<List<short>> Matrix { get; private set; } = new List<List<short>>();
+        private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 9
+        private static readonly Regex regex0_1 = new Regex("[^0-1.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 1
+        private int Dimension = 0;//Размерность матрицы 
+        public List<List<short>> Matrix { get; private set; } = new List<List<short>>(); //Матрица смежности
 
         public AdjacencyMatrixPage()
         {
@@ -22,25 +22,37 @@ namespace Edges.Pages
         }
 
         #region Events
+        /// <summary>
+        /// Проверка соотвествует ли введённый символ регулярному выражению regex0_9
+        /// </summary>
         private void DimensionBox_PreviewTextInput(object sender, TextCompositionEventArgs e) {
 
             e.Handled = !DimensionIsTextAllowed(e.Text);
         }
+        /// <summary>
+        /// Проверка соотвествует ли введённый символ регулярному выражению regex0_1
+        /// </summary>
         private void MatrixElement_PreviewTextInput(object sender, TextCompositionEventArgs e) {
 
             e.Handled = !MatrixElementIsTextAllowed(e.Text);
         }
-        private void MatrixElement_VelueChanged(object sender, TextChangedEventArgs e) {
+        /// <summary>
+        /// Пересоздаёт матрицу смежности после изменения её пользоватем в поле ввода
+        /// </summary>
+        private void MatrixElement_ValueChanged(object sender, TextChangedEventArgs e) {
 
             var elements = new List<short>();
-            foreach (TextBox item in Graph.Children)
+            foreach (TextBox item in Graph.Children) //Сохраняет все элементы матрицы смежности в массив
                 elements.Add(Convert.ToInt16(item.Text));
 
-            int k = 0;
-            for (int i = 0; i < Dimension; i++)
+            int k = 0;//Номер элемента матрицы смежности
+            for (int i = 0; i < Dimension; i++) //Заполнение матрицы смежности новыми данными
                 for (int j = 0; j < Dimension; j++)
                     Matrix[i][j] = elements[k++];
         }
+        /// <summary>
+        /// Пересоздаёт матрицу смежности в случаи изменения её размерности
+        /// </summary>
         private void DimensionBox_TextChanged(object sender, TextChangedEventArgs e) {
 
             if (DimensionBox.Text != "0" && !string.IsNullOrEmpty(DimensionBox.Text))
@@ -50,26 +62,24 @@ namespace Edges.Pages
         #endregion
 
         #region Methods
-        private static bool DimensionIsTextAllowed(string text) {
 
-            return !regex0_9.IsMatch(text);
-        }
-        private static bool MatrixElementIsTextAllowed(string text) {
+        private static bool DimensionIsTextAllowed(string text) => !regex0_9.IsMatch(text);
 
-            return !regex0_1.IsMatch(text);
-        }
+        private static bool MatrixElementIsTextAllowed(string text) => !regex0_1.IsMatch(text);
+
         private void CreateAdjacencyMatrix() {
 
-            Dimension = Convert.ToInt32(DimensionBox.Text);
-            Graph.Width = 40 * Dimension;
-            Graph.Children.Clear();
-            Matrix = new List<List<short>>();
+            Dimension = Convert.ToInt32(DimensionBox.Text);//Получение размерности матрицы
+            Graph.Width = 40 * Dimension; //Задание размерности WrapPanel таким образом, чтобы на одной строчке помещалось кол-во элементов равное размерности 
+            Graph.Children.Clear(); //Очистка Graph(WrapPanel) от старой матрицы
+            Matrix = new List<List<short>>(); //Создание матрицы смежности заполненой нулями
             for (int i = 0; i < Dimension; i++) {
                 Matrix.Add(new List<short>());
                 for (int j = 0; j < Dimension; j++)
                     Matrix[i].Add(0);
             }
 
+            //Заполнение Graph(WrapPanel) Текстовами полями, где каждое поле элемент МС
             for (int i = 0; i < Dimension; i++) {
                 for (int j = 0; j < Dimension; j++) {
 
@@ -81,12 +91,13 @@ namespace Edges.Pages
                         MaxLength = 1,
                         Style = (Style)FindResource("TextBoxBase")
                     };
-                    textBox.PreviewTextInput += MatrixElement_PreviewTextInput;
-                    textBox.TextChanged += MatrixElement_VelueChanged;
+                    textBox.PreviewTextInput += MatrixElement_PreviewTextInput; //Подписание Т.Поля на события
+                    textBox.TextChanged += MatrixElement_ValueChanged; 
                     Graph.Children.Add(textBox);
                 }
             }
 
+            //Создание нумерации строк и столбцов
             ColumnNumbers.Children.Clear();
             RowNumbers.Children.Clear();
             for (int i = 1; i <= Dimension; i++) {
