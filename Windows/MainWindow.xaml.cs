@@ -16,32 +16,32 @@ namespace Edges
             "Матрица инцидентности",
             "Алгебраическая структура"
         };
-        private object LeftGraphObj;
-        private object RightGraphObj;
+        private object FirstGraphObj;
+        private object SecondGraphObj;
 
         public MainWindow()
         {
             InitializeComponent();
             foreach (string method in GraphInputMethodList) {
-                LeftSelectGraphInputMethod.Items.Add(method);
-                RightSelectGraphInputMethod.Items.Add(method);
+                FirstSelectGraphInputMethod.Items.Add(method);
+                SecondSelectGraphInputMethod.Items.Add(method);
             }
         }
 
         #region Events
 
-        private void LeftSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void FirstSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
-            switch (LeftSelectGraphInputMethod.SelectedIndex) {
+            switch (FirstSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    LeftFrame.Content = LeftGraphObj = new AdjacencyMatrixPage();
+                    FirstFrame.Content = FirstGraphObj = new AdjacencyMatrixPage();
                     break;
                 case 1:
-                    LeftFrame.Content = LeftGraphObj = new IncidenceMatrixPage();
+                    FirstFrame.Content = FirstGraphObj = new IncidenceMatrixPage();
                     break;
                 case 2:
-                    LeftFrame.Content = LeftGraphObj = new GraphAsAlgebraicStructurePage();
+                    FirstFrame.Content = FirstGraphObj = new GraphAsAlgebraicStructurePage();
                     break;
 
                 default:
@@ -49,18 +49,18 @@ namespace Edges
             }
         }
 
-        private void RightSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void SecondSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
-            switch (RightSelectGraphInputMethod.SelectedIndex) {
+            switch (SecondSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    RightFrame.Content = RightGraphObj = new AdjacencyMatrixPage();
+                    SecondFrame.Content = SecondGraphObj = new AdjacencyMatrixPage();
                     break;
                 case 1:
-                    RightFrame.Content = RightGraphObj = new IncidenceMatrixPage();
+                    SecondFrame.Content = SecondGraphObj = new IncidenceMatrixPage();
                     break;
                 case 2:
-                    RightFrame.Content = RightGraphObj = new GraphAsAlgebraicStructurePage();
+                    SecondFrame.Content = SecondGraphObj = new GraphAsAlgebraicStructurePage();
                     break;
                 default:
                     break;
@@ -69,7 +69,7 @@ namespace Edges
 
         private void VisualizationBtn_Click(object sender, RoutedEventArgs e) {
             //List<object> graphs = GetAllGraph();
-            var window = new VisualizationGraphWindow(((GraphAsAlgebraicStructurePage)LeftGraphObj).Matrix);
+            var window = new VisualizationGraphWindow(((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix);
             window.Show();
         }
 
@@ -81,16 +81,16 @@ namespace Edges
 
             var firstGraph = new List<List<short>>();
 
-            switch (LeftSelectGraphInputMethod.SelectedIndex) {
+            switch (FirstSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    firstGraph = ((AdjacencyMatrixPage)LeftGraphObj).Matrix;
+                    firstGraph = ((AdjacencyMatrixPage)FirstGraphObj).Matrix;
                     break;
                 case 1:
-                    firstGraph = ((IncidenceMatrixPage)LeftGraphObj).Matrix;
+                    firstGraph = ((IncidenceMatrixPage)FirstGraphObj).Matrix;
                     break;
                 case 2:
-                    firstGraph = ((GraphAsAlgebraicStructurePage)LeftGraphObj).Matrix;
+                    firstGraph = ((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix;
                     break;
                 default:
                     break;
@@ -98,16 +98,16 @@ namespace Edges
 
             var secondGraph = new List<List<short>>();
 
-            switch (RightSelectGraphInputMethod.SelectedIndex) {
+            switch (SecondSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    secondGraph = ((AdjacencyMatrixPage)RightGraphObj).Matrix;
+                    secondGraph = ((AdjacencyMatrixPage)SecondGraphObj).Matrix;
                     break;
                 case 1:
-                    secondGraph = ((IncidenceMatrixPage)RightGraphObj).Matrix;
+                    secondGraph = ((IncidenceMatrixPage)SecondGraphObj).Matrix;
                     break;
                 case 2:
-                    secondGraph = ((GraphAsAlgebraicStructurePage)RightGraphObj).Matrix;
+                    secondGraph = ((GraphAsAlgebraicStructurePage)SecondGraphObj).Matrix;
                     break;
                 default:
                     break;
