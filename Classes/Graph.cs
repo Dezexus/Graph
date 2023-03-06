@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Graph.Classes
 {
@@ -14,33 +12,60 @@ namespace Graph.Classes
         private List<short> vertexDegrees = new List<short>();
 
 
-        public Graph(List<List<short>> _graph) {
+        public Graph(List<List<short>> _graph)
+        {
 
             graph = _graph;
-            findingDegreeVertex();
+            CountingDegreesVertices();
         }
-        public List<List<short>> getGraph() => graph;
-        
-        public List<short> getVertexColors() => vertexColors;
-        
-        public List<short> getVertexDegrees()=> vertexDegrees;
-        public int getDegreeVertex(short vertexNumber) => vertexColors[vertexNumber];
 
-        public short getCountVertex() => Convert.ToInt16(graph[0].Count);
+        public Graph() { } //Временный конструктор по умолчанию
 
-        public void findingDegreeVertex() {
-        /*
-            vertexDegrees.resize(graph[0].size());
-            fill(vertexDegrees.begin(), vertexDegrees.end(), 0);
-            for (short i = 1; i < graph.size(); i++)
-            {
-                for (short j = 0; j < graph[0].size(); j++)
-                {
+        #region Getters
+
+        public List<List<short>> GetGraph() => graph;
+
+        public List<short> GetVertexColors() => vertexColors;
+
+        public List<short> GetVertexDegrees() => vertexDegrees;
+
+        public int GetDegreeVertex(short vertexNumber) => vertexColors[vertexNumber];
+
+        public short GetCountVertex() => Convert.ToInt16(graph[0].Count);
+
+        #endregion
+
+        #region Methods
+
+        public void CountingDegreesVertices() {
+
+            vertexDegrees = new List<short>(graph[0].Count);
+
+            for (short i = 1; i < graph.Count(); i++)
+                for (short j = 0; j < graph[0].Count(); j++)
                     if (graph[i][0] == j || graph[i][1] == j)
                         vertexDegrees[j]++;
-                }
-            }*/
         }
 
+        public short SearchVertexWithMaxDegree() {
+
+            List<short> DegreeAndVertex = new List<short> { 1, 0 };
+
+            for (short i = 0; i < vertexDegrees.Count(); i++)
+                if (vertexDegrees[i] > DegreeAndVertex[0])
+                    DegreeAndVertex = new List<short> { DegreeAndVertex[0]++, i };
+
+            return DegreeAndVertex[1];
+        }
+
+        #endregion
+
+        public static Graph operator +(Graph graph1, Graph graph2)
+        {
+
+
+
+            return new Graph();
+        }
     }
 }
