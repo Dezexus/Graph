@@ -37,7 +37,7 @@ namespace Edges.Pages
             e.Handled = !MatrixElementIsTextAllowed(e.Text);
         }
         /// <summary>
-        /// Пересоздаёт матрицу смежности после изменения её пользоватем в поле ввода
+        /// Обновляет матрицу смежности после изменения её пользоватем в поле ввода
         /// </summary>
         private void MatrixElement_ValueChanged(object sender, TextChangedEventArgs e) {
 
@@ -56,21 +56,32 @@ namespace Edges.Pages
         private void DimensionBox_TextChanged(object sender, TextChangedEventArgs e) {
 
             if (DimensionBox.Text != "0" && !string.IsNullOrEmpty(DimensionBox.Text))
-                CreateAdjacencyMatrix();
+                CreateIncidenceMatrix();
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Проверяет соответствует ли текст регулярному выражению [^0-9.-]+
+        /// </summary>
+        /// <param name="text">Текст для проверки на соответствие regex</param>
+        /// <returns></returns>
         private static bool DimensionIsTextAllowed(string text) => !regex0_9.IsMatch(text);
-
+        /// <summary>
+        /// Проверяет соответствует ли текст регулярному выражению [^0-1.-]+
+        /// </summary>
+        /// <param name="text">Текст для проверки на соответствие regex</param>
+        /// <returns></returns>
         private static bool MatrixElementIsTextAllowed(string text) => !regex0_1.IsMatch(text);
-
-        private void CreateAdjacencyMatrix() {
+        /// <summary>
+        /// Создаёт матрицу смежности
+        /// </summary>
+        private void CreateIncidenceMatrix() {
 
             Dimension = Convert.ToInt32(DimensionBox.Text);//Получение размерности матрицы
-            Graph.Width = 40 * Dimension; //Задание размерности WrapPanel таким образом, чтобы на одной строчке помещалось кол-во элементов равное размерности 
+            Graph.Width = 40 * Dimension; //Задание размерности Graph(WrapPanel) таким образом, чтобы на одной строке помещалось кол-во элементов равное размерности 
             Graph.Children.Clear(); //Очистка Graph(WrapPanel) от старой матрицы
             Matrix = new List<List<short>>(); //Создание матрицы смежности заполненой нулями
             for (int i = 0; i < Dimension; i++) {
