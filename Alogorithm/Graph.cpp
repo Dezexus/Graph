@@ -41,7 +41,6 @@ public:
 			}
 		}
 	}
-
 	int searchVertexWithMaxDegree() {
 		vector <int> DegreeAndVertex = {1, 0};
 		for (int i = 0; i < vertexDegrees.size(); i++) {
@@ -51,7 +50,6 @@ public:
 		}
 		return DegreeAndVertex[1];
 	}
-
 	Graph operator + (Graph &graphTwo) {
 		int countVertex1 = getCountVertex();
 		vector <vector <int>> graph3 = graph;
