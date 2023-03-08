@@ -42,15 +42,15 @@ public:
 		}
 	}
 	int searchVertexWithMaxDegree() {
-		vector <int> DegreeAndVertex = {1, 0};
+		vector <int> DegreeAndVertex = { 0, 0 };
 		for (int i = 0; i < vertexDegrees.size(); i++) {
 			if (vertexDegrees[i] > DegreeAndVertex[0]) {
-				DegreeAndVertex = { DegreeAndVertex[0]++, i };
-			}		
+				DegreeAndVertex = { vertexDegrees[i], i };
+			}
 		}
 		return DegreeAndVertex[1];
 	}
-	Graph operator + (Graph &graphTwo) {
+	Graph operator + (Graph& graphTwo) {
 		int countVertex1 = getCountVertex();
 		vector <vector <int>> graph3 = graph;
 		vector <vector <int>> graph2 = graphTwo.getGraph();
@@ -60,6 +60,7 @@ public:
 		for (int i = 1; i < graph2.size(); i++) {
 			graph3.push_back({ graph2[i][0] + countVertex1, graph2[i][1] + countVertex1 });
 		}
+		graph3.push_back({ searchVertexWithMaxDegree(), graphTwo.searchVertexWithMaxDegree() + countVertex1 });
 		return Graph(graph3);
 	}
 };
@@ -67,7 +68,7 @@ public:
 vector <vector <int>> generationGraph(int countVertex) {
 	srand(time(0));
 	vector <vector <int>> graph;
-	int countEdge = countVertex - 1 + rand() % (((countVertex-1)*countVertex)/2 + 1);
+	int countEdge = countVertex - 1 + rand() % (((countVertex - 1) * countVertex) / 2 + 1);
 	vector <int> vertex;
 	for (int i = 0; i < countVertex; i++)
 		vertex.push_back(i);
@@ -87,15 +88,17 @@ void graphOutput(Graph& graph) {
 		}
 		cout << endl;
 	}
-	
+
 }
 
 int main()
 {
 	//vector <vector <int>> incomingGraph = { {0, 1, 2, 3, 4}, {0, 1}, {0, 2}, {2, 1}, {2, 3} };
-	Graph graph1(generationGraph(4));
-	Sleep(3000);
-	Graph graph2(generationGraph(4));
+	int countVertex1, countVertex2;
+	cin >> countVertex1 >> countVertex2;
+	Graph graph1(generationGraph(countVertex1));
+	Sleep(801);
+	Graph graph2(generationGraph(countVertex2));
 	graphOutput(graph1);
 	cout << endl << endl;
 	graphOutput(graph2);
@@ -103,5 +106,6 @@ int main()
 	Graph graph3 = graph1 + graph2;
 	graphOutput(graph3);
 
-	
 }
+
+
