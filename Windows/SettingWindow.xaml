@@ -1,0 +1,28 @@
+﻿<Window x:Class="Windows.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Windows"
+        mc:Ignorable="d"
+        Background="{DynamicResource Window.Static.Background}"
+        WindowStartupLocation="CenterOwner"
+        Height="250" Width="350"
+        Loaded="Window_Loaded"
+        >
+    <StackPanel>
+        <Grid Grid.Row="0" Margin="10,15,10,10">
+            <Border Style="{DynamicResource BorderBase}">
+                <Border.Effect>
+                    <DropShadowEffect Opacity="0.1" ShadowDepth="3" BlurRadius="2"/>
+                </Border.Effect>
+            </Border>
+            <StackPanel Margin="10">
+                <TextBlock Text="Внешний вид" FontSize="14" HorizontalAlignment="Center" Margin="10,5" Foreground="{DynamicResource TextBlock.Static.Foreground}"/>
+                <Border Height="1" Background="Gray" Margin="5,0,5,10"/>
+                <ComboBox x:Name="ThemeListBox" Height="30" Style="{DynamicResource ComboBoxBase}"  IsEditable="True" ItemContainerStyle="{DynamicResource ItemsStyle}" SelectionChanged="ThemeListBox_SelectionChanged"/>
+            </StackPanel>
+        </Grid>
+
+    </StackPanel>
+</Window>
