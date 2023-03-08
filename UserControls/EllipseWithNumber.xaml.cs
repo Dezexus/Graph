@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Graph.UserControls
+namespace GraphApp.UserControls
 {
     public partial class EllipseWithNumber : UserControl
     {

@@ -3,6 +3,7 @@ using Edges.Windows;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using Classes;
 
 namespace Edges
 {
@@ -68,8 +69,8 @@ namespace Edges
         }
 
         private void VisualizationBtn_Click(object sender, RoutedEventArgs e) {
-            //List<object> graphs = GetAllGraph();
-            var window = new VisualizationGraphWindow(((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix);
+            List<Graph> graphs = GetAllGraph();
+            var window = new VisualizationGraphWindow(graphs[0] + graphs[1]);
             window.Show();
         }
 
@@ -77,17 +78,17 @@ namespace Edges
 
         #region Methods
 
-        private List<object> GetAllGraph() {
+        private List<Graph> GetAllGraph() {
 
             var firstGraph = new List<List<short>>();
 
             switch (FirstSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    firstGraph = ((AdjacencyMatrixPage)FirstGraphObj).Matrix;
+                    //firstGraph = ((AdjacencyMatrixPage)FirstGraphObj).Matrix;
                     break;
                 case 1:
-                    firstGraph = ((IncidenceMatrixPage)FirstGraphObj).Matrix;
+                    //firstGraph = ((IncidenceMatrixPage)FirstGraphObj).Matrix;
                     break;
                 case 2:
                     firstGraph = ((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix;
@@ -101,10 +102,10 @@ namespace Edges
             switch (SecondSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    secondGraph = ((AdjacencyMatrixPage)SecondGraphObj).Matrix;
+                    //secondGraph = ((AdjacencyMatrixPage)SecondGraphObj).Matrix;
                     break;
                 case 1:
-                    secondGraph = ((IncidenceMatrixPage)SecondGraphObj).Matrix;
+                    //secondGraph = ((IncidenceMatrixPage)SecondGraphObj).Matrix;
                     break;
                 case 2:
                     secondGraph = ((GraphAsAlgebraicStructurePage)SecondGraphObj).Matrix;
@@ -113,9 +114,9 @@ namespace Edges
                     break;
             }
 
-            var graphs = new List<object> {
-                firstGraph,
-                secondGraph
+            var graphs = new List<Graph> {
+                new Graph(firstGraph),
+                new Graph(secondGraph)
             };
 
             return graphs;

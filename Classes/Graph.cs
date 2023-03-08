@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Graph.Classes
+namespace Classes
 {
-    internal class Graph
+    public class Graph
     {
 
-        private List<List<short>> GraphAsAlgebraicStructure = new List<List<short>>();
+        #region Field
+
+        
         private List<short> vertexColors = new List<short>();
         private List<short> vertexDegrees = new List<short>();
 
+        #endregion
 
         public Graph(List<List<short>> _graphAsAlgebraicStructurePage) {
 
             GraphAsAlgebraicStructure = _graphAsAlgebraicStructurePage;
-            CountingDegreesVertices();
         }
 
         #region Getters
 
-        public List<List<short>> GetGraph() => GraphAsAlgebraicStructure;
+        public List<List<short>> GraphAsAlgebraicStructure { get; set; } 
+            = new List<List<short>>();
 
         public List<short> GetVertexColors() => vertexColors;
 
@@ -36,7 +39,11 @@ namespace Graph.Classes
 
         public void CountingDegreesVertices() {
 
-            vertexDegrees = new List<short>(GraphAsAlgebraicStructure[0][0]);
+            //vertexDegrees = new List<short>(n);
+            for (int i = 0; i < GraphAsAlgebraicStructure[0][0]; i++)
+                vertexDegrees.Add(0);
+
+
 
             for (short i = 1; i < GraphAsAlgebraicStructure.Count(); i++)
                 for (short j = 0; j < GraphAsAlgebraicStructure[0][0]; j++)
@@ -61,12 +68,13 @@ namespace Graph.Classes
 
         public static Graph operator +(Graph graph1, Graph graph2) {
 
+            graph1.CountingDegreesVertices();
+            graph2.CountingDegreesVertices();
             short countVertex1 = graph1.GetCountVertex();
-            List<List<short>> matrix1 = graph1.GetGraph();
-            List<List<short>> matrix2 = graph2.GetGraph();
+            List<List<short>> matrix1 = graph1.GraphAsAlgebraicStructure;
+            List<List<short>> matrix2 = graph2.GraphAsAlgebraicStructure;
 
-            for (short i = 0; i < countVertex1; i++)
-                matrix1[0].Add((short)(i + countVertex1));
+            matrix1[0][0] = (short)(graph1.GraphAsAlgebraicStructure[0][0] + graph2.GraphAsAlgebraicStructure[0][0]);
 
             for (short i = 1; i < matrix2.Count; i++) { 
 
@@ -82,22 +90,24 @@ namespace Graph.Classes
 
         public List<List<short>> GenerationGraph(int countVertex) {
 
-/*
             var rnd = new Random();
 
             var graph = new List<List<short>>();
-            int countEdge = countVertex - 1 + rand() % (((countVertex - 1) * countVertex) / 2 + 1);
+            int countEdge = countVertex - 1 + rnd.Next(1, (((countVertex - 1) * countVertex) / 2 + 1));
             var vertex = new List<short>();
             for (short i = 0; i < countVertex; i++)
                 vertex.Add(i);
-            graph.Add(vertex);*/
+            graph.Add(vertex);
 
+            for (short i = 0; i < countEdge; i++) { 
+            
+                short firsVertex = (short)rnd.Next(0, countVertex);
+                short secondVertex = (short)rnd.Next(0, countVertex);
+                graph.Add(new List<short>{ firsVertex, secondVertex });
+            }
 
-            return null;
+	        return graph;
         }
-
-
-
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Graph.UserControls;
+﻿using Classes;
+using GraphApp.UserControls;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -9,16 +10,16 @@ namespace Edges.Windows
 {
     public partial class VisualizationGraphWindow : Window
     {
-        private List<List<short>> Matrix; //Содержит граф как алгебраическую структуру, где m[0][0] - кол-во вершин
+        private Graph _Graph; //Содержит граф как алгебраическую структуру, где m[0][0] - кол-во вершин
         private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>(); //Вершины графа
         private List<Line> Lines = new List<Line>(); //Рёбра графа
         private List<Ellipse> Loops = new List<Ellipse>();//Петли графа (в случаи, если они существуют)
         private double Scale = 1;//Масштаб графа
 
-        public VisualizationGraphWindow(List<List<short>> matrix)
+        public VisualizationGraphWindow(Graph graph)
         {
             InitializeComponent();
-            Matrix = matrix;
+            _Graph = graph;
         }
 
         #region Events
@@ -27,49 +28,49 @@ namespace Edges.Windows
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
-                    short n = Matrix[0][0];//Кол-во вершин в графе
-                    short x = 50, y = 50;//Координаты первой вершин
-                    for (short i = 0; i < n; i++) {//Создаёт массив вершин
+            short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
+            short x = 50, y = 50;//Координаты первой вершин
+            for (short i = 0; i < n; i++) {//Создаёт массив вершин
 
-                        if (i % 10 == 0 && i != 0) {//Переход на новую строку(По координатам)
+                if (i % 10 == 0 && i != 0) {//Переход на новую строку(По координатам)
 
-                            y += 100;
-                            x = 50;
-                        }
-                        var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", (short)(i+1));
-                        Vertexes.Add(vertex);
-                        x += 100;
-                    }
-
-                    for (short i = 1; i < Matrix.Count; i++) {//Создаёт массив линий(рёбер) между вершинами
-
-                        if (Vertexes[Matrix[i][0] - 1] == Vertexes[Matrix[i][1] - 1]) {//Если 1-я и 2-я вершина совпадают, то с помощью эллипса создаёться петля
-
-                            double x1 = (Vertexes[Matrix[i][0] - 1].Margin.Left);
-                            double y2 = (Vertexes[Matrix[i][0] - 1].Margin.Top);
-                            Loops.Add(CreateLoop(50, 50, x1, y2));
-                        }
-
-                        var line = new Line { //Создание линии от центра 1-й першины, до центра 2-й
-                            X1 = Vertexes[Matrix[i][0] - 1].Margin.Left + 25,
-                            Y1 = Vertexes[Matrix[i][0] - 1].Margin.Top + 25,
-                            X2 = Vertexes[Matrix[i][1] - 1].Margin.Left + 25,
-                            Y2 = Vertexes[Matrix[i][1] - 1].Margin.Top + 25,
-                            Stroke = new SolidColorBrush(Colors.White),
-                            StrokeThickness = 3
-                        };
-                        Lines.Add(line);
-                    }
-
-                    //Вывод рёбер, петель и вершин на экран
-                    foreach (var line in Lines)
-                        Canva.Children.Add(line);
-                    foreach (var loop in Loops)
-                        Canva.Children.Add(loop);
-                    foreach (var ellipse in Vertexes)
-                        Canva.Children.Add(ellipse);
-
+                    y += 100;
+                    x = 50;
                 }
+                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", (short)(i + 1));
+                Vertexes.Add(vertex);
+                x += 100;
+            }
+
+            for (short i = 1; i < _Graph.GraphAsAlgebraicStructure.Count; i++) {//Создаёт массив линий(рёбер) между вершинами
+
+                if (Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1] == Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1]) {//Если 1-я и 2-я вершина совпадают, то с помощью эллипса создаёться петля
+
+                    double x1 = (Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Left);
+                    double y2 = (Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Top);
+                    Loops.Add(CreateLoop(50, 50, x1, y2));
+                }
+
+                var line = new Line { //Создание линии от центра 1-й першины, до центра 2-й
+                    X1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Left + 25,
+                    Y1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Top + 25,
+                    X2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Left + 25,
+                    Y2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Top + 25,
+                    Stroke = new SolidColorBrush(Colors.White),
+                    StrokeThickness = 3
+                };
+                Lines.Add(line);
+            }
+
+            //Вывод рёбер, петель и вершин на экран
+            foreach (var line in Lines)
+                Canva.Children.Add(line);
+            foreach (var loop in Loops)
+                Canva.Children.Add(loop);
+            foreach (var ellipse in Vertexes)
+                Canva.Children.Add(ellipse);
+
+        }
         /// <summary>
         /// Изменение масштаба графа при прокрутке колеса мыши
         /// </summary>
