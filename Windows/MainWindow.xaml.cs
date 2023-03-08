@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Classes;
+using XMLFileSettings;
 
 namespace Windows
 {
@@ -32,7 +33,12 @@ namespace Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
-            Appearance.SetCurrentTheme();
+            Setting.LoadSetting();
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e) {
+
+            Setting.SaveSetting();
         }
 
         private void FirstSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -125,6 +131,7 @@ namespace Windows
 
             return graphs;
         }
+
 
 
 
