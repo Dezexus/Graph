@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Windows"
         mc:Ignorable="d"
+        Title="Настройки"
         Background="{DynamicResource Window.Static.Background}"
         WindowStartupLocation="CenterOwner"
         Height="250" Width="350"
