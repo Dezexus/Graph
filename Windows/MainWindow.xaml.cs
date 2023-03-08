@@ -30,6 +30,11 @@ namespace Windows
 
         #region Events
 
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+
+            Appearance.SetCurrentTheme();
+        }
+
         private void FirstSelectGraphInputMethod_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
             switch (FirstSelectGraphInputMethod.SelectedIndex) {
@@ -120,6 +125,7 @@ namespace Windows
 
             return graphs;
         }
+
 
 
         #endregion
