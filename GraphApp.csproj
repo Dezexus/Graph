@@ -58,6 +58,8 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Appearance.cs" />
     <Compile Include="Classes\Graph.cs" />
+    <Compile Include="Classes\Props.cs" />
+    <Compile Include="Classes\Setting.cs" />
     <Compile Include="UserControls\EllipseWithNumber.xaml.cs">
       <DependentUpon>EllipseWithNumber.xaml</DependentUpon>
     </Compile>
