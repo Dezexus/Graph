@@ -6,11 +6,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Style/Dark/ButtonBase.xaml"/>
-                <ResourceDictionary Source="Style/Dark/ComboBoxBase.xaml"/>
-                <ResourceDictionary Source="Style/Dark/Color.xaml"/>
-                <ResourceDictionary Source="Style/Dark/TextBoxBase.xaml"/>
-                <ResourceDictionary Source="Style/Dark/ScrollViewer.xaml"/>
+                <ResourceDictionary Source="Style/Light/BorderBase.xaml"/>
+                <ResourceDictionary Source="Style/Light/ButtonBase.xaml"/>
+                <ResourceDictionary Source="Style/Light/ComboBoxBase.xaml"/>
+                <ResourceDictionary Source="Style/Light/Color.xaml"/>
+                <ResourceDictionary Source="Style/Light/TextBoxBase.xaml"/>
+                <ResourceDictionary Source="Style/Light/ScrollViewer.xaml"/>
+                <ResourceDictionary Source="Resources/vectorIcons.xaml"/>
+                <ResourceDictionary Source="Style/General/IconButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
