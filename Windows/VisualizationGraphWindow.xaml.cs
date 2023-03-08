@@ -1,5 +1,5 @@
 ﻿using Classes;
-using GraphApp.UserControls;
+using UserControls;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
