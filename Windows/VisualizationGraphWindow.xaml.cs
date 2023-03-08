@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Ink;
 
 namespace Windows
 {
@@ -51,12 +52,17 @@ namespace Windows
                     Loops.Add(CreateLoop(50, 50, x1, y2));
                 }
 
+                var brush = new SolidColorBrush(Colors.White);
+
+                if ((int)Appearance.SelectedTheme != 1)
+                    brush = new SolidColorBrush(Colors.Black); //Кастыль для смены цветов при разных темах, УБРАТЬ!!!
+
                 var line = new Line { //Создание линии от центра 1-й першины, до центра 2-й
                     X1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Left + 25,
                     Y1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Top + 25,
                     X2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Left + 25,
                     Y2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Top + 25,
-                    Stroke = new SolidColorBrush(Colors.White),
+                    Stroke = brush,
                     StrokeThickness = 3
                 };
                 Lines.Add(line);
