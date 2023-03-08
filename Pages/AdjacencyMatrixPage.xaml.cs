@@ -42,8 +42,12 @@ namespace Pages
         private void MatrixElement_ValueChanged(object sender, TextChangedEventArgs e) {
 
             var elements = new List<short>();
-            foreach (TextBox item in Graph.Children) //Сохраняет все элементы матрицы смежности в массив
+            foreach (TextBox item in Graph.Children) { //Сохраняет все элементы матрицы смежности в массив
+                
+                if (string.IsNullOrEmpty(item.Text))
+                    return;
                 elements.Add(Convert.ToInt16(item.Text));
+            }
 
             int k = 0;//Номер элемента матрицы смежности
             for (int i = 0; i < Dimension; i++) //Заполнение матрицы смежности новыми данными

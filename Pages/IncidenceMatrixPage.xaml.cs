@@ -41,10 +41,10 @@ namespace Pages
         /// </summary>
         private void CountEdgesBoxAndCountVerticesBox_TextChanged(object sender, TextChangedEventArgs e) {
 
-            if (CountEdgesBox == null || CountVerticesBox == null)
+            if (CountEdgesBox == null || CountVertexesBox == null)
                 return;
 
-            if (CountVerticesBox.Text != "0" && !string.IsNullOrEmpty(CountVerticesBox.Text)
+            if (CountVertexesBox.Text != "0" && !string.IsNullOrEmpty(CountVertexesBox.Text)
                 && CountEdgesBox.Text != "0" && !string.IsNullOrEmpty(CountEdgesBox.Text))
                     CreateAdjacencyMatrix();
         }
@@ -54,8 +54,12 @@ namespace Pages
         private void MatrixElement_ValueChanged(object sender, TextChangedEventArgs e) {
 
             var elements = new List<short>();
-            foreach (TextBox item in Graph.Children)//Сохраняет все элементы матрицы инцидентности в массив
+            foreach (TextBox item in Graph.Children) {//Сохраняет все элементы матрицы инцидентности в массив
+
+                if (string.IsNullOrEmpty(item.Text))
+                    return;
                 elements.Add(Convert.ToInt16(item.Text));
+            }
 
             int k = 0;//Номер элемента матрицы смежности
             for (int i = 0; i < CountEdges; i++)//Заполнение матрицы смежности новыми данными
