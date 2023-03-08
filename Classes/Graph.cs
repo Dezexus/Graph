@@ -7,23 +7,20 @@ namespace Graph.Classes
     internal class Graph
     {
 
-        private List<List<short>> graph = new List<List<short>>();
+        private List<List<short>> GraphAsAlgebraicStructure = new List<List<short>>();
         private List<short> vertexColors = new List<short>();
         private List<short> vertexDegrees = new List<short>();
 
 
-        public Graph(List<List<short>> _graph)
-        {
+        public Graph(List<List<short>> _graphAsAlgebraicStructurePage) {
 
-            graph = _graph;
+            GraphAsAlgebraicStructure = _graphAsAlgebraicStructurePage;
             CountingDegreesVertices();
         }
 
-        public Graph() { } //Временный конструктор по умолчанию
-
         #region Getters
 
-        public List<List<short>> GetGraph() => graph;
+        public List<List<short>> GetGraph() => GraphAsAlgebraicStructure;
 
         public List<short> GetVertexColors() => vertexColors;
 
@@ -31,7 +28,7 @@ namespace Graph.Classes
 
         public int GetDegreeVertex(short vertexNumber) => vertexColors[vertexNumber];
 
-        public short GetCountVertex() => Convert.ToInt16(graph[0].Count);
+        public short GetCountVertex() => GraphAsAlgebraicStructure[0][0];
 
         #endregion
 
@@ -39,11 +36,11 @@ namespace Graph.Classes
 
         public void CountingDegreesVertices() {
 
-            vertexDegrees = new List<short>(graph[0].Count);
+            vertexDegrees = new List<short>(GraphAsAlgebraicStructure[0][0]);
 
-            for (short i = 1; i < graph.Count(); i++)
-                for (short j = 0; j < graph[0].Count(); j++)
-                    if (graph[i][0] == j || graph[i][1] == j)
+            for (short i = 1; i < GraphAsAlgebraicStructure.Count(); i++)
+                for (short j = 0; j < GraphAsAlgebraicStructure[0][0]; j++)
+                    if (GraphAsAlgebraicStructure[i][0] == j || GraphAsAlgebraicStructure[i][1] == j)
                         vertexDegrees[j]++;
         }
 
@@ -60,12 +57,47 @@ namespace Graph.Classes
 
         #endregion
 
-        public static Graph operator +(Graph graph1, Graph graph2)
-        {
+        #region Operator
 
+        public static Graph operator +(Graph graph1, Graph graph2) {
 
+            short countVertex1 = graph1.GetCountVertex();
+            List<List<short>> matrix1 = graph1.GetGraph();
+            List<List<short>> matrix2 = graph2.GetGraph();
 
-            return new Graph();
+            for (short i = 0; i < countVertex1; i++)
+                matrix1[0].Add((short)(i + countVertex1));
+
+            for (short i = 1; i < matrix2.Count; i++) { 
+
+                short vertex1 = (short)(matrix2[i][0] + countVertex1);
+                short vertex2 = (short)(matrix2[i][1] + countVertex1);
+                matrix1.Add(new List<short>{ vertex1, vertex2});
+            }
+
+            return new Graph(matrix1);
         }
+
+        #endregion
+
+        public List<List<short>> GenerationGraph(int countVertex) {
+
+/*
+            var rnd = new Random();
+
+            var graph = new List<List<short>>();
+            int countEdge = countVertex - 1 + rand() % (((countVertex - 1) * countVertex) / 2 + 1);
+            var vertex = new List<short>();
+            for (short i = 0; i < countVertex; i++)
+                vertex.Add(i);
+            graph.Add(vertex);*/
+
+
+            return null;
+        }
+
+
+
+
     }
 }
