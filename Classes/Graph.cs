@@ -12,6 +12,8 @@ namespace Classes
             GraphAsAlgebraicStructure = _graphAsAlgebraicStructurePage;
         }
 
+        public Graph() { }
+
         #region Properties
 
         public List<List<short>> GraphAsAlgebraicStructure { get; set; } 
@@ -89,6 +91,41 @@ namespace Classes
 
 	        return new Graph(graph);
         }
+
+        public static Graph AdjacencyMatrixToGraph(List<List<short>> matrix) {
+
+            var graph = new List<List<short>> {
+                new List<short>(){ (short)matrix.Count }
+            };  
+
+            for (short i = 0; i < matrix.Count; i++) {
+                for (short j = 0; j < matrix.Count; j++) {
+
+                    if (matrix[i][j] == 1)
+                        graph.Add(new List<short> { (short)(i + 1), (short)(j + 1) });
+                }
+            }
+
+            return new Graph(graph);
+        }
+
+        public static Graph IncidenceMatrixToGraph(List<List<short>> matrix) {
+
+            var graph = new List<List<short>> {
+                new List<short>(){ (short)matrix[0].Count }
+            };
+
+            for (short i = 0; i < matrix[0].Count; i++) {
+                for (short j = 0; j < matrix.Count; j++) {
+
+                    if (matrix[i][j] == 1)
+                        graph.Add(new List<short> { (short)(i + 1), (short)(j + 1) });
+                }
+            }
+
+            return new Graph(graph);
+        }
+
         #endregion
 
         #region Operator
@@ -103,7 +140,7 @@ namespace Classes
             graph1.CountingDegreesVertices();
             graph2.CountingDegreesVertices();
             short vertexCount1 = graph1.CountVertex;
-            var matrix1 = new List<List<short>>(graph1.GraphAsAlgebraicStructure.);
+            var matrix1 = new List<List<short>>(graph1.GraphAsAlgebraicStructure);
             var matrix2 = new List<List<short>>(graph2.GraphAsAlgebraicStructure);
 
             matrix1[0][0] = (short)(graph1.CountVertex + graph2.CountVertex);

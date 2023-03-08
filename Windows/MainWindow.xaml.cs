@@ -80,43 +80,43 @@ namespace Edges
 
         private List<Graph> GetAllGraph() {
 
-            var firstGraph = new List<List<short>>();
+            var firstGraph = new Graph();
 
             switch (FirstSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    //firstGraph = ((AdjacencyMatrixPage)FirstGraphObj).Matrix;
+                    firstGraph = Graph.AdjacencyMatrixToGraph(((AdjacencyMatrixPage)FirstGraphObj).Matrix);
                     break;
                 case 1:
-                    //firstGraph = ((IncidenceMatrixPage)FirstGraphObj).Matrix;
+                    firstGraph = Graph.IncidenceMatrixToGraph(((IncidenceMatrixPage)FirstGraphObj).Matrix);
                     break;
                 case 2:
-                    firstGraph = ((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix;
+                    firstGraph = new Graph(((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix);
                     break;
                 default:
                     break;
             }
 
-            var secondGraph = new List<List<short>>();
+            var secondGraph = new Graph();
 
             switch (SecondSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    //secondGraph = ((AdjacencyMatrixPage)SecondGraphObj).Matrix;
+                    secondGraph = Graph.AdjacencyMatrixToGraph(((AdjacencyMatrixPage)SecondGraphObj).Matrix);
                     break;
                 case 1:
-                    //secondGraph = ((IncidenceMatrixPage)SecondGraphObj).Matrix;
+                    secondGraph = Graph.IncidenceMatrixToGraph(((IncidenceMatrixPage)SecondGraphObj).Matrix);
                     break;
                 case 2:
-                    secondGraph = ((GraphAsAlgebraicStructurePage)SecondGraphObj).Matrix;
+                    secondGraph = new Graph(((GraphAsAlgebraicStructurePage)SecondGraphObj).Matrix);
                     break;
                 default:
                     break;
             }
 
             var graphs = new List<Graph> {
-                new Graph(firstGraph),
-                new Graph(secondGraph)
+                firstGraph,
+                secondGraph
             };
 
             return graphs;
