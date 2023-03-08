@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Кол-во вершин: " Foreground="{DynamicResource TextBlock.Static.Foreground}" VerticalAlignment="Center"/>
-            <TextBox x:Name="CountVerticesBox" Grid.Column="1" Width="50" Height="30" Text="0" Style="{DynamicResource TextBoxBase}" TextChanged="CountEdgesBoxAndCountVerticesBox_TextChanged"/>
+            <TextBox x:Name="CountVertexesBox" Grid.Column="1" Width="50" Height="30" Text="0" Style="{DynamicResource TextBoxBase}" TextChanged="CountEdgesBoxAndCountVerticesBox_TextChanged"/>
             <TextBlock Text="Кол-во рёбер: " Grid.Row="1" Foreground="{DynamicResource TextBlock.Static.Foreground}" VerticalAlignment="Center"/>
             <TextBox x:Name="CountEdgesBox" Grid.Row="1" Grid.Column="1" Width="50" Height="30" Text="0" Style="{DynamicResource TextBoxBase}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="CountEdgesBoxAndCountVerticesBox_TextChanged"/>
         </Grid>

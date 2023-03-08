@@ -12,7 +12,7 @@ namespace Pages
     {
         private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 9
         private static readonly Regex regex0_1 = new Regex("[^0-1.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 1
-        private int CountVertices = 0;//Кол-во вершин
+        private int CountVertexes = 0;//Кол-во вершин
         private int CountEdges = 0;//Кол-во рёбер
         public List<List<short>> Matrix { get; private set; } = new List<List<short>>();//Матрица инцидентности
 
@@ -58,8 +58,8 @@ namespace Pages
                 elements.Add(Convert.ToInt16(item.Text));
 
             int k = 0;//Номер элемента матрицы смежности
-            for (int i = 0; i < CountVertices; i++)//Заполнение матрицы смежности новыми данными
-                for (int j = 0; j < CountEdges; j++)
+            for (int i = 0; i < CountEdges; i++)//Заполнение матрицы смежности новыми данными
+                for (int j = 0; j < CountVertexes; j++)
                     Matrix[i][j] = elements[k++];
         }
 
@@ -83,19 +83,19 @@ namespace Pages
         /// </summary>
         private void CreateAdjacencyMatrix() {
 
-            CountVertices = Convert.ToInt32(CountVerticesBox.Text);
+            CountVertexes = Convert.ToInt32(CountVertexesBox.Text);
             CountEdges = Convert.ToInt32(CountEdgesBox.Text);
-            Graph.Width = 40 * CountVertices;//Задание размерности Graph(WrapPanel) таким образом, чтобы на одной строке помещалось кол-во элементов равное вершинам 
+            Graph.Width = 40 * CountEdges;//Задание размерности Graph(WrapPanel) таким образом, чтобы на одной строке помещалось кол-во элементов равное вершинам 
             Graph.Children.Clear();//Очистка Graph(WrapPanel) от старой матрицы
             Matrix = new List<List<short>>();//Создание матрицы инцидентности заполненой нулями
-            for (int i = 0; i < CountVertices; i++) {
+            for (int i = 0; i < CountEdges; i++) {
                 Matrix.Add(new List<short>());
-                for (int j = 0; j < CountEdges; j++)
+                for (int j = 0; j < CountVertexes; j++)
                     Matrix[i].Add(0);
             }
 
             //Заполнение Graph(WrapPanel) Текстовами полями, где каждое поле элемент МИ
-            for (int i = 0; i < CountVertices; i++) {
+            for (int i = 0; i < CountVertexes; i++) {
                 for (int j = 0; j < CountEdges; j++) {
 
                     var textBox = new TextBox {
@@ -114,7 +114,7 @@ namespace Pages
 
             //Создание нумерации столбцов
             ColumnNumbers.Children.Clear();
-            for (int i = 1; i <= CountVertices; i++) {
+            for (int i = 1; i <= CountEdges; i++) {
 
                 var textBlock = new TextBlock {
                     Width = 40,
@@ -130,7 +130,7 @@ namespace Pages
 
             //Создание нумерации строк
             RowNumbers.Children.Clear();
-            for (int i = 1; i <= CountEdges; i++) {
+            for (int i = 1; i <= CountVertexes; i++) {
 
                 var textBlock = new TextBlock {
                     Width = 40,
