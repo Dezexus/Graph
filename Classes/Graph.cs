@@ -92,6 +92,11 @@ namespace Classes
 	        return new Graph(graph);
         }
 
+        /// <summary>
+        /// Конвертирует матрицу смежности в объект типа Graph
+        /// </summary>
+        /// <param name="matrix">Матрица смежности</param>
+        /// <returns>Вовзращает объект типа Graph</returns>
         public static Graph AdjacencyMatrixToGraph(List<List<short>> matrix) {
 
             var graph = new List<List<short>> {
@@ -109,18 +114,30 @@ namespace Classes
             return new Graph(graph);
         }
 
+        /// <summary>
+        /// Конвертирует матрицу инцидентности в объект типа Graph
+        /// </summary>
+        /// <param name="matrix">Матрица инцидентности</param>
+        /// <returns>Вовзращает объект типа Graph</returns>
         public static Graph IncidenceMatrixToGraph(List<List<short>> matrix) {
 
             var graph = new List<List<short>> {
                 new List<short>(){ (short)matrix[0].Count }
             };
 
-            for (short i = 0; i < matrix[0].Count; i++) {
-                for (short j = 0; j < matrix.Count; j++) {
+            for (short i = 0; i < matrix.Count; i++) {
+                var tmp = new List<short>();
+                for (short j = 0; j < matrix[0].Count; j++) {
 
                     if (matrix[i][j] == 1)
-                        graph.Add(new List<short> { (short)(i + 1), (short)(j + 1) });
+                        tmp.Add((short)(j + 1));
                 }
+
+                if (tmp.Count == 1) {//Если элемент один, то делаем петлю
+                    graph.Add(new List<short> { tmp[0], tmp[0] });
+                    continue;
+                }
+                graph.Add(new List<short> { tmp[0], tmp[1] });
             }
 
             return new Graph(graph);
@@ -128,7 +145,7 @@ namespace Classes
 
         #endregion
 
-        #region Operator
+        #region Operator overloading
         /// <summary>
         /// Объединяет два графа
         /// </summary>
