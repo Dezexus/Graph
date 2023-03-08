@@ -17,6 +17,7 @@ namespace Classes
         private static readonly List<string> lightThemesDictionarys 
             = new List<string>() {
 
+            "Style/Light/BorderBase.xaml",
             "Style/Light/ButtonBase.xaml",
             "Style/Light/ComboBoxBase.xaml",
             "Style/Light/Color.xaml",
@@ -27,6 +28,7 @@ namespace Classes
         private static readonly List<string> darkThemesDictionarys 
             = new List<string>() {
 
+            "Style/Dark/BorderBase.xaml",
             "Style/Dark/ButtonBase.xaml",
             "Style/Dark/ComboBoxBase.xaml",
             "Style/Dark/Color.xaml",
