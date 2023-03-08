@@ -1,11 +1,10 @@
-﻿using Edges.Pages;
-using Edges.Windows;
+﻿using Pages;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Classes;
 
-namespace Edges
+namespace Windows
 {
 
     public partial class MainWindow : Window

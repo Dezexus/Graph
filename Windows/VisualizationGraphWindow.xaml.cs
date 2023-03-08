@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Edges.Windows
+namespace Windows
 {
     public partial class VisualizationGraphWindow : Window
     {
