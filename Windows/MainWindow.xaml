@@ -23,12 +23,14 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ComboBox Name="FirstSelectGraphInputMethod" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" SelectionChanged="FirstSelectGraphInputMethod_SelectionChanged"/>
+        <ComboBox Name="FirstSelectGraphInputMethod" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" ItemContainerStyle="{DynamicResource ItemsStyle}" SelectionChanged="FirstSelectGraphInputMethod_SelectionChanged"/>
         <Frame x:Name="FirstFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
 
-        <ComboBox Name="SecondSelectGraphInputMethod" Grid.Column="1" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" SelectionChanged="SecondSelectGraphInputMethod_SelectionChanged"/>
+        <ComboBox Name="SecondSelectGraphInputMethod" Grid.Column="1" Height="30" Width="200" Style="{DynamicResource ComboBoxBase}" ItemContainerStyle="{DynamicResource ItemsStyle}"  SelectionChanged="SecondSelectGraphInputMethod_SelectionChanged"/>
         <Frame x:Name="SecondFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
 
         <Button x:Name="VisualizationBtn" Grid.Row="2" Grid.ColumnSpan="2" Height="30" Width="150" Style="{DynamicResource ButtonBase}" Content="Визуализировать" Click="VisualizationBtn_Click"/>
+
+        <Button x:Name="SettingBtn" Content="{StaticResource Settings}" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0" Height="30" Width="30" Style="{DynamicResource IconButton}" Click="SettingBtn_Click"/>
     </Grid>
 </Window>

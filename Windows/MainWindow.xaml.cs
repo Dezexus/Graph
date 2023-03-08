@@ -84,6 +84,13 @@ namespace Windows
             window.Show();
         }
 
+        private void SettingBtn_Click(object sender, RoutedEventArgs e) {
+
+            var settingWindow = new SettingWindow();
+            settingWindow.Owner = this;
+            settingWindow.ShowDialog();
+        }
+
         #endregion
 
         #region Methods
@@ -131,6 +138,7 @@ namespace Windows
 
             return graphs;
         }
+
 
 
 
