@@ -17,7 +17,7 @@ namespace UserControls
             double top = desiredCenterY - (_height / 2);
             UControl.Margin = new Thickness(left, top, 0, 0);
             Vertex.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexColor));
-            Vertex.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
+            Vertex.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#000000"));
             Vertex.StrokeThickness = 3;
 
         }
