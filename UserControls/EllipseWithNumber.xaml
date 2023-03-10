@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:UserControls"
              mc:Ignorable="d"
              x:Name="UControl"
+             MouseEnter="UControl_MouseEnter"
+             MouseLeave="UControl_MouseLeave"
              >
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Ellipse x:Name="Vertex" Width="50" Height="50"/>

@@ -1,25 +1,42 @@
-﻿using System.Windows;
+﻿using Classes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Windows;
 
 namespace UserControls
 {
     public partial class EllipseWithNumber : UserControl
     {
+        private VisualizationGraphWindow _Owner;
+        public short Number { get; private set; }
 
-        public EllipseWithNumber(double _width, double _height, double desiredCenterX, double desiredCenterY, string hexColor, short _number)
+
+        public EllipseWithNumber(double _width, double _height, double desiredCenterX, double desiredCenterY, string hexColor, short _number, VisualizationGraphWindow _owner)
         {
             InitializeComponent();
+            _Owner = _owner;
+            Number = _number;
             VertexNumber.Text = _number.ToString();
             Vertex.Width = _width;
             Vertex.Height = _height;
             double left = desiredCenterX - (_width / 2);
             double top = desiredCenterY - (_height / 2);
             UControl.Margin = new Thickness(left, top, 0, 0);
-            Vertex.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexColor));
+            Vertex.Fill = new SolidColorBrush(ColorGenerator.GetRandColor());
             Vertex.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#000000"));
             Vertex.StrokeThickness = 3;
 
+        }
+
+        private void UControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) {
+
+            _Owner.Vertex_MouseEnter(sender, e);
+        }
+
+        private void UControl_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
+
+            _Owner.Vertex_MouseLeave(sender, e);
         }
     }
 }
