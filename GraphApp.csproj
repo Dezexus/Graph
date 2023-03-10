@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Appearance.cs" />
+    <Compile Include="Classes\ColorGenerator.cs" />
     <Compile Include="Classes\Graph.cs" />
     <Compile Include="Classes\Props.cs" />
     <Compile Include="Classes\Setting.cs" />
