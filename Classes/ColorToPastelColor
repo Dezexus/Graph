@@ -1,0 +1,13 @@
+
+namespace Classes {
+
+  public static class ColorToPastelColor {
+  
+    public sColorToPastelColor() {
+    
+      
+    }
+  
+  
+  }
+}
