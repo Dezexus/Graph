@@ -14,7 +14,8 @@ namespace Windows
         private Graph _Graph; //Содержит граф как алгебраическую структуру, где m[0][0] - кол-во вершин
         private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>(); //Вершины графа
         private List<Line> Lines = new List<Line>(); //Рёбра графа
-        private List<Ellipse> Loops = new List<Ellipse>();//Петли графа (в случаи, если они существуют)
+        private Dictionary<short, Ellipse> Loops = new Dictionary<short, Ellipse>();//Петли графа (в случаи, если они существуют)
+
         private double Scale = 1;//Масштаб графа
 
         public VisualizationGraphWindow(Graph graph)
@@ -30,15 +31,15 @@ namespace Windows
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
             short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
-            short radius = (short)(n * 1 / 4 * 70);
-            short center = (short)(radius + 50);
+            double radius = n * 1 / 4 * 60;
+            double center = radius + 50;
 
             for (short i = 1; i <= n; i++) {//Создаёт массив вершин
 
-                double ang = (((double)i / n * 2.0 * Math.PI) * (180 / Math.PI));
+                double ang = ((double)i / n * 2.0 * Math.PI) * (180 / Math.PI);
                 double x = center + radius * Math.Cos(ang);
                 double y = center + radius * Math.Sin(ang);
-                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i);
+                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i, this);
                 Vertexes.Add(vertex);
             }
 
@@ -48,7 +49,7 @@ namespace Windows
 
                     double x1 = (Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Left);
                     double y2 = (Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Top);
-                    Loops.Add(CreateLoop(50, 50, x1, y2));
+                    Loops.Add(_Graph.GraphAsAlgebraicStructure[i][0], CreateLoop(50, 50, x1, y2));
                 }
 
                 var brush = new SolidColorBrush(Colors.White);
@@ -71,7 +72,7 @@ namespace Windows
             foreach (var line in Lines)
                 Canva.Children.Add(line);
             foreach (var loop in Loops)
-                Canva.Children.Add(loop);
+                Canva.Children.Add(loop.Value);
             foreach (var ellipse in Vertexes)
                 Canva.Children.Add(ellipse);
 
@@ -92,6 +93,34 @@ namespace Windows
                 var scaleTransform = new ScaleTransform(Scale, Scale, 50, 50);
                 Canva.RenderTransform = scaleTransform;
             }
+        }
+
+        /// <summary>
+        /// Выделение цветов рёбер связанных с вершинной на которую наведён курсор
+        /// </summary>
+        public void Vertex_MouseEnter(object sender, MouseEventArgs e) {
+
+            var vertex = (EllipseWithNumber)sender;
+
+            for (int i = 0; i < Lines.Count; i++)
+                if (_Graph.GraphAsAlgebraicStructure[i + 1][0] == vertex.Number || _Graph.GraphAsAlgebraicStructure[i + 1][1] == vertex.Number)
+                    Lines[i].Stroke = new SolidColorBrush(Colors.Red);
+                else if (Loops.ContainsKey(vertex.Number))
+                    Loops[vertex.Number].Stroke = new SolidColorBrush(Colors.Red);
+        }
+
+        /// <summary>
+        /// Снятие выделения цветов рёбер связанных с вершинной на которую наведён курсор
+        /// </summary>
+        public void Vertex_MouseLeave(object sender, MouseEventArgs e) {
+
+            var vertex = (EllipseWithNumber)sender;
+
+            for (int i = 0; i < Lines.Count; i++)
+                if (_Graph.GraphAsAlgebraicStructure[i + 1][0] == vertex.Number || _Graph.GraphAsAlgebraicStructure[i + 1][1] == vertex.Number)
+                    Lines[i].Stroke = new SolidColorBrush(Colors.Black);
+                else if (Loops.ContainsKey(vertex.Number))
+                    Loops[vertex.Number].Stroke = new SolidColorBrush(Colors.Black);
         }
 
         #endregion
@@ -151,8 +180,9 @@ namespace Windows
             _Grid.Margin = new Thickness(p.X, p.Y, 0, 0);
         }
 
-        #endregion
 
+
+        #endregion
 
 
     }
