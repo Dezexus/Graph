@@ -110,6 +110,7 @@ namespace Pages
                         MaxLength = 1,
                         Style = (Style)FindResource("TextBoxBase")
                     };
+                    textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
                     textBox.PreviewTextInput += MatrixElement_PreviewTextInput;
                     textBox.TextChanged += MatrixElement_ValueChanged;
                     Graph.Children.Add(textBox);
@@ -127,6 +128,7 @@ namespace Pages
                     TextAlignment = TextAlignment.Center,
                     Foreground = (Brush)FindResource("TextBlock.Static.Foreground")
                 };
+
                 ColumnNumbers.Children.Add(textBlock);
 
 

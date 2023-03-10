@@ -94,8 +94,8 @@ namespace Pages
                         Height = 30,
                         Text = "0",
                         TextAlignment = TextAlignment.Center,
-                        Style = (Style)FindResource("TextBoxBase")
                 };
+                    textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
                     textBox.PreviewTextInput += TextBox_PreviewTextInput;//Подписание Т.Поля на события
                     textBox.TextChanged += MatrixElement_ValueChanged;
                     Edges.Children.Add(textBox);

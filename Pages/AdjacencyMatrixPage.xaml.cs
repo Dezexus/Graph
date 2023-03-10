@@ -104,8 +104,8 @@ namespace Pages
                         Text = "0",
                         TextAlignment = TextAlignment.Center,
                         MaxLength = 1,
-                        Style = (Style)FindResource("TextBoxBase")
                     };
+                    textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
                     textBox.PreviewTextInput += MatrixElement_PreviewTextInput; //Подписание Т.Поля на события
                     textBox.TextChanged += MatrixElement_ValueChanged; 
                     Graph.Children.Add(textBox);
