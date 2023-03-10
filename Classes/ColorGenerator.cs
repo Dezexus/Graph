@@ -7,14 +7,24 @@ namespace Classes
     {
         private static int Count = 0; 
 
-        public static Color GetRandColor()
-        {
+        public static Color GetRandColor() {
+
             Count++;
-            Random rnd = new Random(Count);
-            string hexOutput = String.Format("{0:X}", rnd.Next(0, 0xFFFFFF));
-            while (hexOutput.Length < 6)
-                hexOutput = "0" + hexOutput;
-            return (Color)ColorConverter.ConvertFromString("#" + hexOutput);
+            var random = new Random(Count);
+            byte[] colorBytes = new byte[3];
+            colorBytes[0] = (byte)(random.Next(128) + 127);
+            colorBytes[1] = (byte)(random.Next(128) + 127);
+            colorBytes[2] = (byte)(random.Next(128) + 127);
+
+            Color color = new Color {
+
+                A = 255,
+                R = colorBytes[0],
+                B = colorBytes[1],
+                G = colorBytes[2]
+            };
+
+            return color;
         }
     }
 }
