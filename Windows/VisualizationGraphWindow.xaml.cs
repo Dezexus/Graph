@@ -1,11 +1,11 @@
 ﻿using Classes;
-using UserControls;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Ink;
+using UserControls;
 
 namespace Windows
 {
@@ -30,17 +30,16 @@ namespace Windows
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
             short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
-            short x = 50, y = 50;//Координаты первой вершин
-            for (short i = 0; i < n; i++) {//Создаёт массив вершин
+            short radius = (short)(n * 1 / 4 * 70);
+            short center = (short)(radius + 50);
 
-                if (i % 10 == 0 && i != 0) {//Переход на новую строку(По координатам)
+            for (short i = 1; i <= n; i++) {//Создаёт массив вершин
 
-                    y += 100;
-                    x = 50;
-                }
-                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", (short)(i + 1));
+                double ang = (((double)i / n * 2.0 * Math.PI) * (180 / Math.PI));
+                double x = center + radius * Math.Cos(ang);
+                double y = center + radius * Math.Sin(ang);
+                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i);
                 Vertexes.Add(vertex);
-                x += 100;
             }
 
             for (short i = 1; i < _Graph.GraphAsAlgebraicStructure.Count; i++) {//Создаёт массив линий(рёбер) между вершинами
@@ -112,7 +111,7 @@ namespace Windows
             double left = desiredCenterX - (width / 2);
             double top = desiredCenterY - (height / 2);
             ellipse.Margin = new Thickness(left, top, 0, 0);
-            ellipse.Stroke = new SolidColorBrush(Colors.White);
+            ellipse.Stroke = new SolidColorBrush(Colors.Black);
             ellipse.StrokeThickness = 3;
 
             return ellipse;
