@@ -5,5 +5,9 @@
     <SolidColorBrush x:Key="Border.Static.Background" Color="#252525"/>
     <SolidColorBrush x:Key="TextBlock.Static.Foreground" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="TextBlock.Static.Background" Color="#262626"/>
+    <SolidColorBrush x:Key="Vertex.Static.Border" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="SelectedVertex.Static.Border" Color="#07f"/>
+    <SolidColorBrush x:Key="Edge.Static.Border" Color="LightGray"/>
+    <SolidColorBrush x:Key="SelectedEdge.Static.Border" Color="#07f"/>
 
 </ResourceDictionary>
