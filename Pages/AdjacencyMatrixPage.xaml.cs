@@ -122,8 +122,8 @@ namespace Pages
                     Height = 20,
                     Text = i.ToString(),
                     TextAlignment = TextAlignment.Center,
-                    Foreground = (Brush)FindResource("TextBlock.Static.Foreground")
                 };
+                textBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextBlock.Static.Foreground");
                 ColumnNumbers.Children.Add(textBlock);
 
                 textBlock = new TextBlock
@@ -133,8 +133,8 @@ namespace Pages
                     Text = i.ToString(),
                     TextAlignment = TextAlignment.Right,
                     Margin = new Thickness(0, 0, 5, 0),
-                    Foreground = (Brush)FindResource("TextBlock.Static.Foreground")
-            };
+                };
+                textBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextBlock.Static.Foreground");
                 RowNumbers.Children.Add(textBlock);
             }
         }
