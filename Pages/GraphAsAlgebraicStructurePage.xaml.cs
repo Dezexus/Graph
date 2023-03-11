@@ -11,7 +11,8 @@ namespace Pages
     public partial class GraphAsAlgebraicStructurePage : Page
     {
         private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 9
-        private int CountEdges = 0;//Кол-во рёбер
+        private short CountEdges = 0;//Кол-во рёбер
+        private short CountVertexes = 0;//Кол-во рёбер
         public List<List<short>> Matrix { get; private set; } = new List<List<short>>(); //Граф как АС, где M[0][0] - кол-во вершин
 
         public GraphAsAlgebraicStructurePage()
@@ -26,6 +27,14 @@ namespace Pages
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e) {
 
             e.Handled = !TextBoxIsTextAllowed(e.Text);
+        }
+
+        /// <summary>
+        /// Проверка соотвествует ли введённый символ регулярному выражению regex0_9 и не превышает ли ко-во вершин
+        /// </summary>
+        private void TextBoxMatrixElement_PreviewTextInput(object sender, TextCompositionEventArgs e)         {
+
+            e.Handled = !TextBoxMatrixElementIsTextAllowed(e.Text);
         }
         /// <summary>
         /// Обновляет АС после изменения её пользоватем в поле ввода
@@ -67,17 +76,31 @@ namespace Pages
         /// </summary>
         /// <param name="text">Текст для проверки на соответствие regex</param>
         /// <returns></returns>
-        private static bool TextBoxIsTextAllowed(string text) => !regex0_9.IsMatch(text);
+        private bool TextBoxIsTextAllowed(string text) {
+
+            if (!regex0_9.IsMatch(text))
+                return (Convert.ToInt16(text) != 0);
+            return false;            
+        }
+
+        private bool TextBoxMatrixElementIsTextAllowed(string text) {
+
+            if (!regex0_9.IsMatch(text))
+                return (Convert.ToInt16(text) > 0 && Convert.ToInt16(text) <= CountVertexes);
+            return false;
+        }
+
         /// <summary>
         /// Создаёт АС
         /// </summary>
         private void CreateAlgebraicStructure() {
 
-            CountEdges = Convert.ToInt32(CountEdgesBox.Text);
+            CountEdges = Convert.ToInt16(CountEdgesBox.Text);
             Edges.Width = 40 * 2;//Задание размерности Edges(WrapPanel) таким образом, чтобы на одной строке помещалось 2 элемента
             Edges.Children.Clear();//Очистка Edges(WrapPanel) от старой АС
             Matrix = new List<List<short>> {new List<short>()};
-            Matrix[0].Add(Convert.ToInt16(CountVerticesBox.Text));//Сохраняет под индексом [0][0] кол-во вершин
+            CountVertexes = Convert.ToInt16(CountVerticesBox.Text);
+            Matrix[0].Add(CountVertexes);//Сохраняет под индексом [0][0] кол-во вершин
 
             for (int i = 1; i <= CountEdges; i++) {//Создаёт АС
                 Matrix.Add(new List<short>());
@@ -96,7 +119,7 @@ namespace Pages
                         TextAlignment = TextAlignment.Center,
                 };
                     textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
-                    textBox.PreviewTextInput += TextBox_PreviewTextInput;//Подписание Т.Поля на события
+                    textBox.PreviewTextInput += TextBoxMatrixElement_PreviewTextInput;//Подписание Т.Поля на события
                     textBox.TextChanged += MatrixElement_ValueChanged;
                     Edges.Children.Add(textBox);
                 }
