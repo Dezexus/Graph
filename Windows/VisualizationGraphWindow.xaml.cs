@@ -15,7 +15,6 @@ namespace Windows
         private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>(); //Вершины графа
         private List<Line> Lines = new List<Line>(); //Рёбра графа
         private Dictionary<short, Ellipse> Loops = new Dictionary<short, Ellipse>();//Петли графа (в случаи, если они существуют)
-
         private double Scale = 1;//Масштаб графа
 
         public VisualizationGraphWindow(Graph graph)
@@ -125,31 +124,6 @@ namespace Windows
             vertex.Vertex.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
         }
 
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="width">Ширина эллипса</param>
-        /// <param name="height">Высота эллипса</param>
-        /// <param name="desiredCenterX">Координата центра эллипса по оси x</param>
-        /// <param name="desiredCenterY">Координата центра эллипса по оси y</param>
-        /// <returns>Возвращает эллипс с прозрачной заливкой и закрашенной границей</returns>
-        Ellipse CreateLoop(double width, double height, double desiredCenterX, double desiredCenterY) {
-
-            Ellipse ellipse = new Ellipse { Width = width, Height = height };
-            double left = desiredCenterX - (width / 2);
-            double top = desiredCenterY - (height / 2);
-            ellipse.Margin = new Thickness(left, top, 0, 0);
-            ellipse.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
-            ellipse.StrokeThickness = 3;
-
-            return ellipse;
-        }
-
-        #endregion
-
         #region MoveGraph
 
         private Point? _movePoint; //Координаты мыши относительно _Grid
@@ -185,6 +159,33 @@ namespace Windows
 
 
         #endregion
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width">Ширина эллипса</param>
+        /// <param name="height">Высота эллипса</param>
+        /// <param name="desiredCenterX">Координата центра эллипса по оси x</param>
+        /// <param name="desiredCenterY">Координата центра эллипса по оси y</param>
+        /// <returns>Возвращает эллипс с прозрачной заливкой и закрашенной границей</returns>
+        Ellipse CreateLoop(double width, double height, double desiredCenterX, double desiredCenterY) {
+
+            Ellipse ellipse = new Ellipse { Width = width, Height = height };
+            double left = desiredCenterX - (width / 2);
+            double top = desiredCenterY - (height / 2);
+            ellipse.Margin = new Thickness(left, top, 0, 0);
+            ellipse.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
+            ellipse.StrokeThickness = 3;
+
+            return ellipse;
+        }
+
+        #endregion
+
+        
 
 
     }
