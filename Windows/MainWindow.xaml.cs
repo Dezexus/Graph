@@ -157,12 +157,14 @@ namespace Windows
                 VisualizationBtn.IsEnabled = false;
                 return;
             }
-                
-            List<Graph> graphs = GetAllGraph();
-            if (!graphs[0].ExistEdges() || !graphs[1].ExistEdges()) {
 
-                VisualizationBtn.IsEnabled = false;
-                return;
+            List<Graph> graphs = GetAllGraph();
+            if (graphs[0] != null && graphs[1] != null) { 
+                if (!graphs[0].ExistEdges() || !graphs[1].ExistEdges()) {
+
+                    VisualizationBtn.IsEnabled = false;
+                    return;
+                }
             }
 
             VisualizationBtn.IsEnabled = true;
