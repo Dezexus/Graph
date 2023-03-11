@@ -131,6 +131,11 @@ namespace Classes
         /// <returns>Вовзращает объект типа Graph</returns>
         public static Graph IncidenceMatrixToGraph(List<List<short>> matrix) {
 
+            int sum = 0;
+            matrix.ForEach(x => x.ForEach(y => sum += y));
+            if (sum == 0) //Не провадить конвертацию, если у графа отсуствуют рёбра
+                return null;
+
             var graph = new List<List<short>> {
                 new List<short>(){ (short)matrix[0].Count }
             };
