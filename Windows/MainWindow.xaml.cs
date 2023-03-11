@@ -159,7 +159,7 @@ namespace Windows
             }
                 
             List<Graph> graphs = GetAllGraph();
-            if (graphs[0].GraphAsAlgebraicStructure.Count <= 1 || graphs[1].GraphAsAlgebraicStructure.Count <= 1) {
+            if (!graphs[0].ExistEdges() || !graphs[1].ExistEdges()) {
 
                 VisualizationBtn.IsEnabled = false;
                 return;
