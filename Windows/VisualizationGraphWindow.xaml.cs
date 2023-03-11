@@ -31,13 +31,14 @@ namespace Windows
 
             short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
             double radius = n * 1 / 4 * 100;
-            double center = radius + 50;
+            double centerX = Width / 2 + 50;
+            double centerY = radius + 50;
 
             for (short i = 1; i <= n; i++) {//Создаёт массив вершин
 
                 double angle = Math.PI / 2 + 2 * Math.PI * i / n;
-                double x = center + radius * Math.Cos(angle);
-                double y = center + radius * Math.Sin(angle);
+                double x = centerX + radius * Math.Cos(angle);
+                double y = centerY + radius * Math.Sin(angle);
 
                 var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i, this);
                 Vertexes.Add(vertex);
