@@ -31,7 +31,7 @@ namespace Windows
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
             short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
-            double radius = n * 1 / 4 * 60;
+            double radius = n * 1 / 4 * 100;
             double center = radius + 50;
 
             for (short i = 1; i <= n; i++) {//Создаёт массив вершин
@@ -52,19 +52,14 @@ namespace Windows
                     Loops.Add(_Graph.GraphAsAlgebraicStructure[i][0], CreateLoop(50, 50, x1, y2));
                 }
 
-                var brush = new SolidColorBrush(Colors.White);
-
-                if ((int)Appearance.SelectedTheme != 1)
-                    brush = new SolidColorBrush(Colors.Black); //Кастыль для смены цветов при разных темах, УБРАТЬ!!!
-
                 var line = new Line { //Создание линии от центра 1-й першины, до центра 2-й
                     X1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Left + 25,
                     Y1 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][0] - 1].Margin.Top + 25,
                     X2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Left + 25,
                     Y2 = Vertexes[_Graph.GraphAsAlgebraicStructure[i][1] - 1].Margin.Top + 25,
-                    Stroke = brush,
                     StrokeThickness = 3
                 };
+                line.SetResourceReference(Line.StrokeProperty, "Edge.Static.Border");
                 Lines.Add(line);
             }
 
@@ -102,11 +97,14 @@ namespace Windows
 
             var vertex = (EllipseWithNumber)sender;
 
-            for (int i = 0; i < Lines.Count; i++)
+            for (int i = 0; i < Lines.Count; i++) {
+
                 if (_Graph.GraphAsAlgebraicStructure[i + 1][0] == vertex.Number || _Graph.GraphAsAlgebraicStructure[i + 1][1] == vertex.Number)
-                    Lines[i].Stroke = new SolidColorBrush(Colors.Red);
+                    Lines[i].SetResourceReference(Line.StrokeProperty, "SelectedEdge.Static.Border");
                 else if (Loops.ContainsKey(vertex.Number))
-                    Loops[vertex.Number].Stroke = new SolidColorBrush(Colors.Red);
+                    Loops[vertex.Number].SetResourceReference(Ellipse.StrokeProperty, "SelectedEdge.Static.Border");
+            }
+            vertex.Vertex.SetResourceReference(Ellipse.StrokeProperty, "SelectedEdge.Static.Border");
         }
 
         /// <summary>
@@ -116,11 +114,14 @@ namespace Windows
 
             var vertex = (EllipseWithNumber)sender;
 
-            for (int i = 0; i < Lines.Count; i++)
+            for (int i = 0; i < Lines.Count; i++) {
+
                 if (_Graph.GraphAsAlgebraicStructure[i + 1][0] == vertex.Number || _Graph.GraphAsAlgebraicStructure[i + 1][1] == vertex.Number)
-                    Lines[i].Stroke = new SolidColorBrush(Colors.Black);
+                    Lines[i].SetResourceReference(Line.StrokeProperty, "Edge.Static.Border");
                 else if (Loops.ContainsKey(vertex.Number))
-                    Loops[vertex.Number].Stroke = new SolidColorBrush(Colors.Black);
+                    Loops[vertex.Number].SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
+            }
+            vertex.Vertex.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
         }
 
         #endregion
@@ -140,7 +141,7 @@ namespace Windows
             double left = desiredCenterX - (width / 2);
             double top = desiredCenterY - (height / 2);
             ellipse.Margin = new Thickness(left, top, 0, 0);
-            ellipse.Stroke = new SolidColorBrush(Colors.Black);
+            ellipse.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
             ellipse.StrokeThickness = 3;
 
             return ellipse;

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Windows;
 
 namespace UserControls
@@ -24,7 +25,7 @@ namespace UserControls
             double top = desiredCenterY - (_height / 2);
             UControl.Margin = new Thickness(left, top, 0, 0);
             Vertex.Fill = new SolidColorBrush(ColorGenerator.GetRandColor());
-            Vertex.Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#000000"));
+            Vertex.SetResourceReference(Ellipse.StrokeProperty, "Edge.Static.Border");
             Vertex.StrokeThickness = 3;
 
         }
