@@ -19,7 +19,7 @@ namespace Classes
         public List<List<short>> GraphAsAlgebraicStructure { get; set; } 
             = new List<List<short>>();
 
-        public List<short> vertexColors { get; private set; } = new List<short>();
+        public List<short> VertexColors { get; private set; } = new List<short>();
 
         public List<short> VertexDegrees { get; private set; } = new List<short>();
 
@@ -42,7 +42,7 @@ namespace Classes
         /// </summary>
         /// <param name="vertexNumber">Номер вершины</param>
         /// <returns>Возвращает цвет вершины</returns>
-        public int GetColorVertexByNumber(short vertexNumber) => vertexColors[vertexNumber];
+        public int GetColorVertexByNumber(short vertexNumber) => VertexColors[vertexNumber];
 
         /// <summary>
         /// Создаёт массив с кол-вом степеней для каждой вершины
