@@ -1,9 +1,10 @@
-﻿using Pages;
+﻿using Classes;
+using Pages;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Classes;
-using XMLFileSettings;
+using System.Windows.Threading;
 
 namespace Windows
 {
@@ -19,6 +20,7 @@ namespace Windows
         };
         private object FirstGraphObj;
         private object SecondGraphObj;
+        private DispatcherTimer IsVisualizationBtnTimer; //Отвечает за проверку доступности VisualizationBtn
 
         public MainWindow()
         {
@@ -27,6 +29,12 @@ namespace Windows
                 FirstSelectGraphInputMethod.Items.Add(method);
                 SecondSelectGraphInputMethod.Items.Add(method);
             }
+
+
+            IsVisualizationBtnTimer = new DispatcherTimer();
+            IsVisualizationBtnTimer.Tick += new EventHandler(IsVisualizationBtn);
+            IsVisualizationBtnTimer.Interval = TimeSpan.FromMilliseconds(100);
+            IsVisualizationBtnTimer.Start();
         }
 
         #region Events
@@ -139,9 +147,26 @@ namespace Windows
             return graphs;
         }
 
+        /// <summary>
+        /// Проверяет правильность заполнения графов и определяет доступность VisualizationBtn
+        /// </summary>
+        private void IsVisualizationBtn(object sender, EventArgs e) {
 
+            if (FirstGraphObj == null || SecondGraphObj == null) {
 
+                VisualizationBtn.IsEnabled = false;
+                return;
+            }
+                
+            List<Graph> graphs = GetAllGraph();
+            if (graphs[0].GraphAsAlgebraicStructure.Count <= 1 || graphs[1].GraphAsAlgebraicStructure.Count <= 1) {
 
+                VisualizationBtn.IsEnabled = false;
+                return;
+            }
+
+            VisualizationBtn.IsEnabled = true;
+        }
 
         #endregion
 
