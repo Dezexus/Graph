@@ -115,6 +115,25 @@ namespace Classes
         }
 
         /// <summary>
+        /// Проверяет, есть в графе рёбра или нет
+        /// </summary>
+        /// <returns>Возвращает булево значение, где true - есть, false - нет</returns>
+        public bool ExistEdges() {
+
+            if (GraphAsAlgebraicStructure == null)
+                return false;
+
+            int sum = 0;
+
+            for (int i = 1; i < GraphAsAlgebraicStructure.Count; i++) {
+
+                sum += GraphAsAlgebraicStructure[i][0];
+                sum += GraphAsAlgebraicStructure[i][1];
+            }
+            return (sum != 0);
+        }
+
+        /// <summary>
         /// Конвертирует матрицу инцидентности в объект типа Graph
         /// </summary>
         /// <param name="matrix">Матрица инцидентности</param>
