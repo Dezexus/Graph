@@ -36,9 +36,10 @@ namespace Windows
 
             for (short i = 1; i <= n; i++) {//Создаёт массив вершин
 
-                double ang = ((double)i / n * 2.0 * Math.PI) * (180 / Math.PI);
-                double x = center + radius * Math.Cos(ang);
-                double y = center + radius * Math.Sin(ang);
+                double angle = Math.PI / 2 + 2 * Math.PI * i / n;
+                double x = center + radius * Math.Cos(angle);
+                double y = center + radius * Math.Sin(angle);
+
                 var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i, this);
                 Vertexes.Add(vertex);
             }
