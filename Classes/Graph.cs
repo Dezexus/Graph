@@ -176,22 +176,26 @@ namespace Classes
             graph1.CountingDegreesVertices();
             graph2.CountingDegreesVertices();
             short vertexCount1 = graph1.CountVertex;
-            var matrix1 = new List<List<short>>(graph1.GraphAsAlgebraicStructure);
-            var matrix2 = new List<List<short>>(graph2.GraphAsAlgebraicStructure);
+            var matrix = new List<List<short>>() { new List<short>() { (short)(graph1.CountVertex + graph2.CountVertex) } };
 
-            matrix1[0][0] = (short)(graph1.CountVertex + graph2.CountVertex);
+            for (short i = 1; i < graph1.GraphAsAlgebraicStructure.Count; i++) { 
 
-            for (short i = 1; i < matrix2.Count; i++) { 
+                short vertex1 = (short)(graph1.GraphAsAlgebraicStructure[i][0] + vertexCount1);
+                short vertex2 = (short)(graph1.GraphAsAlgebraicStructure[i][1] + vertexCount1);
+                matrix.Add(new List<short>{ vertex1, vertex2});
+            }
 
-                short vertex1 = (short)(matrix2[i][0] + vertexCount1);
-                short vertex2 = (short)(matrix2[i][1] + vertexCount1);
-                matrix1.Add(new List<short>{ vertex1, vertex2});
+            for (short i = 1; i < graph2.GraphAsAlgebraicStructure.Count; i++) { 
+
+                short vertex1 = (short)(graph2.GraphAsAlgebraicStructure[i][0] + vertexCount1);
+                short vertex2 = (short)(graph2.GraphAsAlgebraicStructure[i][1] + vertexCount1);
+                matrix.Add(new List<short>{ vertex1, vertex2});
             }
             short vertex3 = graph1.SearchVertexWithMaxDegree();
             short vertex4 = (short)(graph2.SearchVertexWithMaxDegree() + vertexCount1);
-            matrix1.Add(new List<short> {vertex3 , vertex4});
+            matrix.Add(new List<short> {vertex3 , vertex4});
 
-            return new Graph(matrix1);
+            return new Graph(matrix);
         }
 
         #endregion
