@@ -115,7 +115,6 @@ namespace Pages
                     var textBox = new TextBox {
                         Width = 40,
                         Height = 30,
-                        Text = "0",
                         TextAlignment = TextAlignment.Center,
                 };
                     textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
