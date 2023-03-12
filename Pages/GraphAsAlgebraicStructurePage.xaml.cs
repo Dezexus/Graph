@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Classes;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace Pages
         private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 9
         private short CountEdges = 0;//Кол-во рёбер
         private short CountVertexes = 0;//Кол-во рёбер
-        public List<List<short>> Matrix { get; private set; } = new List<List<short>>(); //Граф как АС, где M[0][0] - кол-во вершин
+        private List<List<short>> Matrix = new List<List<short>>(); //Граф как АС, где M[0][0] - кол-во вершин
 
         public GraphAsAlgebraicStructurePage()
         {
@@ -27,14 +28,6 @@ namespace Pages
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e) {
 
             e.Handled = !TextBoxIsTextAllowed(e.Text);
-        }
-
-        /// <summary>
-        /// Проверка соотвествует ли введённый символ регулярному выражению regex0_9 и не превышает ли ко-во вершин
-        /// </summary>
-        private void TextBoxMatrixElement_PreviewTextInput(object sender, TextCompositionEventArgs e)         {
-
-            e.Handled = !TextBoxMatrixElementIsTextAllowed(e.Text);
         }
         /// <summary>
         /// Обновляет АС после изменения её пользоватем в поле ввода
@@ -82,14 +75,6 @@ namespace Pages
                 return (Convert.ToInt16(text) != 0);
             return false;            
         }
-
-        private bool TextBoxMatrixElementIsTextAllowed(string text) {
-
-            if (!regex0_9.IsMatch(text))
-                return (Convert.ToInt16(text) > 0 && Convert.ToInt16(text) <= CountVertexes);
-            return false;
-        }
-
         /// <summary>
         /// Создаёт АС
         /// </summary>
@@ -118,11 +103,26 @@ namespace Pages
                         TextAlignment = TextAlignment.Center,
                 };
                     textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
-                    textBox.PreviewTextInput += TextBoxMatrixElement_PreviewTextInput;//Подписание Т.Поля на события
+                    textBox.PreviewTextInput += TextBox_PreviewTextInput;//Подписание Т.Поля на события
                     textBox.TextChanged += MatrixElement_ValueChanged;
                     Edges.Children.Add(textBox);
                 }
             }
+        }
+
+        public Graph GetGraph() {
+
+            if (CountEdges == 0)
+                return null;
+
+            for (int i = 1; i <= CountEdges; i++) {
+
+                if (!(Matrix[i][0] > 0 && Matrix[i][0] <= CountVertexes
+                    && Matrix[i][1] > 0 && Matrix[i][1] <= CountVertexes))
+                    return null;
+            }
+
+            return new Graph(Matrix);
         }
 
         #endregion

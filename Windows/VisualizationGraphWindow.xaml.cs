@@ -31,7 +31,7 @@ namespace Windows
 
             short n = _Graph.GraphAsAlgebraicStructure[0][0];//Кол-во вершин в графе
             double radius = n * 1 / 4 * 100;
-            double centerX = Width / 2 + 50;
+            double centerX = Width / 2;
             double centerY = radius + 50;
 
             for (short i = 1; i <= n; i++) {//Создаёт массив вершин

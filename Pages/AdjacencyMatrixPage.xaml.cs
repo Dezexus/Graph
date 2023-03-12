@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Classes;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace Pages
         private static readonly Regex regex0_9 = new Regex("[^0-9.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 9
         private static readonly Regex regex0_1 = new Regex("[^0-1.-]+");//Регулярное выражение для ограничения ввода символами от 0 до 1
         private int Dimension = 0;//Размерность матрицы 
-        public List<List<short>> Matrix { get; private set; } = new List<List<short>>(); //Матрица смежности
+        private List<List<short>> Matrix = new List<List<short>>(); //Матрица смежности
 
         public AdjacencyMatrixPage()
         {
@@ -41,7 +42,7 @@ namespace Pages
         private void MatrixElement_ValueChanged(object sender, TextChangedEventArgs e) {
 
             var elements = new List<short>();
-            foreach (TextBox item in Graph.Children) { //Сохраняет все элементы матрицы смежности в массив
+            foreach (TextBox item in GraphPanel.Children) { //Сохраняет все элементы матрицы смежности в массив
                 
                 if (string.IsNullOrEmpty(item.Text))
                     return;
@@ -59,7 +60,7 @@ namespace Pages
         private void DimensionBox_TextChanged(object sender, TextChangedEventArgs e) {
 
             if (DimensionBox.Text != "0" && !string.IsNullOrEmpty(DimensionBox.Text))
-                CreateIncidenceMatrix();
+                CreateAdjacencyMatrix();
         }
 
         #endregion
@@ -81,11 +82,11 @@ namespace Pages
         /// <summary>
         /// Создаёт матрицу смежности
         /// </summary>
-        private void CreateIncidenceMatrix() {
+        private void CreateAdjacencyMatrix() {
 
             Dimension = Convert.ToInt32(DimensionBox.Text);//Получение размерности матрицы
-            Graph.Width = 40 * Dimension; //Задание размерности Graph(WrapPanel) таким образом, чтобы на одной строке помещалось кол-во элементов равное размерности 
-            Graph.Children.Clear(); //Очистка Graph(WrapPanel) от старой матрицы
+            GraphPanel.Width = 40 * Dimension; //Задание размерности Graph(WrapPanel) таким образом, чтобы на одной строке помещалось кол-во элементов равное размерности 
+            GraphPanel.Children.Clear(); //Очистка Graph(WrapPanel) от старой матрицы
             Matrix = new List<List<short>>(); //Создание матрицы смежности заполненой нулями
             for (int i = 0; i < Dimension; i++) {
                 Matrix.Add(new List<short>());
@@ -106,8 +107,8 @@ namespace Pages
                     };
                     textBox.SetResourceReference(TextBox.StyleProperty, "TextBoxBase");
                     textBox.PreviewTextInput += MatrixElement_PreviewTextInput; //Подписание Т.Поля на события
-                    textBox.TextChanged += MatrixElement_ValueChanged; 
-                    Graph.Children.Add(textBox);
+                    textBox.TextChanged += MatrixElement_ValueChanged;
+                    GraphPanel.Children.Add(textBox);
                 }
             }
 
@@ -136,6 +137,24 @@ namespace Pages
                 textBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextBlock.Static.Foreground");
                 RowNumbers.Children.Add(textBlock);
             }
+        }
+
+        /// <summary>
+        /// Проверяет матрицу на корректность и возвращает её
+        /// </summary>
+        /// <returns>Возвращает матрицу смежности</returns>
+        public Graph GetGraph() {
+
+            if (Dimension == 0)
+                return null;
+
+            int sum = 0;
+            Matrix.ForEach(x => x.ForEach(y => sum += y));
+
+            if (sum == 0)
+                return null;
+            
+            return Graph.AdjacencyMatrixToGraph(Matrix);
         }
 
         #endregion

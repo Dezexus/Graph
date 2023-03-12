@@ -48,7 +48,6 @@ namespace Classes
                     if (GraphAsAlgebraicStructure[i][0] == j || GraphAsAlgebraicStructure[i][1] == j)
                         VertexDegrees[j]++;
         }
-
         /// <summary>
         /// Выполняет поиск вершины с максимальной степенью
         /// </summary>
@@ -82,13 +81,15 @@ namespace Classes
 
 	        return new Graph(graph);
         }
-
         /// <summary>
         /// Конвертирует матрицу смежности в объект типа Graph
         /// </summary>
         /// <param name="matrix">Матрица смежности</param>
         /// <returns>Вовзращает объект типа Graph</returns>
         public static Graph AdjacencyMatrixToGraph(List<List<short>> matrix) {
+
+            if (matrix is null)
+                return null;
 
             var graph = new List<List<short>> {
                 new List<short>(){ (short)matrix.Count }
@@ -104,26 +105,6 @@ namespace Classes
 
             return new Graph(graph);
         }
-
-        /// <summary>
-        /// Проверяет, есть в графе рёбра или нет
-        /// </summary>
-        /// <returns>Возвращает булево значение, где true - есть, false - нет</returns>
-        public bool ExistEdges() {
-
-            if (GraphAsAlgebraicStructure == null)
-                return false;
-
-            int sum = 0;
-
-            for (int i = 1; i < GraphAsAlgebraicStructure.Count; i++) {
-
-                sum += GraphAsAlgebraicStructure[i][0];
-                sum += GraphAsAlgebraicStructure[i][1];
-            }
-            return (sum != 0);
-        }
-
         /// <summary>
         /// Конвертирует матрицу инцидентности в объект типа Graph
         /// </summary>
@@ -131,20 +112,18 @@ namespace Classes
         /// <returns>Вовзращает объект типа Graph</returns>
         public static Graph IncidenceMatrixToGraph(List<List<short>> matrix) {
 
-            int sum = 0;
-            matrix.ForEach(x => x.ForEach(y => sum += y));
-            if (sum == 0) //Не провадить конвертацию, если у графа отсуствуют рёбра
+            if (matrix is null)
                 return null;
 
             var graph = new List<List<short>> {
-                new List<short>(){ (short)matrix[0].Count }
+                new List<short>(){ (short)matrix.Count }
             };
 
-            for (short i = 0; i < matrix.Count; i++) {
+            for (short i = 0; i < matrix[0].Count; i++) {
                 var tmp = new List<short>();
-                for (short j = 0; j < matrix[0].Count; j++) {
+                for (short j = 0; j < matrix.Count; j++) {
 
-                    if (matrix[i][j] == 1)
+                    if (matrix[j][i] == 1)
                         tmp.Add((short)(j + 1));
                 }
 
@@ -152,7 +131,9 @@ namespace Classes
                     graph.Add(new List<short> { tmp[0], tmp[0] });
                     continue;
                 }
-                graph.Add(new List<short> { tmp[0], tmp[1] });
+
+                if (tmp.Count != 0)
+                    graph.Add(new List<short> { tmp[0], tmp[1] });
             }
 
             return new Graph(graph);
@@ -171,25 +152,27 @@ namespace Classes
 
             graph1.CountingDegreesVertices();
             graph2.CountingDegreesVertices();
-            short vertexCount1 = graph1.CountVertex;
-            var matrix = new List<List<short>>() { new List<short>() { (short)(graph1.CountVertex + graph2.CountVertex) } };
+            short vertexCount = graph1.CountVertex;
+            var matrix = new List<List<short>> {
+                new List<short>() { (short)(graph1.CountVertex + graph2.CountVertex) }
+            };
 
-            for (short i = 1; i < graph1.GraphAsAlgebraicStructure.Count; i++) { 
+            for (short i = 1; i < graph1.GraphAsAlgebraicStructure.Count; i++) {
 
-                short vertex1 = (short)(graph1.GraphAsAlgebraicStructure[i][0] + vertexCount1);
-                short vertex2 = (short)(graph1.GraphAsAlgebraicStructure[i][1] + vertexCount1);
-                matrix.Add(new List<short>{ vertex1, vertex2});
+                short vertex1 = graph1.GraphAsAlgebraicStructure[i][0];
+                short vertex2 = graph1.GraphAsAlgebraicStructure[i][1];
+                matrix.Add(new List<short> { vertex1, vertex2 });
             }
 
-            for (short i = 1; i < graph2.GraphAsAlgebraicStructure.Count; i++) { 
+            for (short i = 1; i < graph2.GraphAsAlgebraicStructure.Count; i++) {
 
-                short vertex1 = (short)(graph2.GraphAsAlgebraicStructure[i][0] + vertexCount1);
-                short vertex2 = (short)(graph2.GraphAsAlgebraicStructure[i][1] + vertexCount1);
-                matrix.Add(new List<short>{ vertex1, vertex2});
+                short vertex1 = (short)(graph2.GraphAsAlgebraicStructure[i][0] + vertexCount);
+                short vertex2 = (short)(graph2.GraphAsAlgebraicStructure[i][1] + vertexCount);
+                matrix.Add(new List<short> { vertex1, vertex2 });
             }
             short vertex3 = graph1.SearchVertexWithMaxDegree();
-            short vertex4 = (short)(graph2.SearchVertexWithMaxDegree() + vertexCount1);
-            matrix.Add(new List<short> {vertex3 , vertex4});
+            short vertex4 = (short)(graph2.SearchVertexWithMaxDegree() + vertexCount);
+            matrix.Add(new List<short> { vertex3, vertex4 });
 
             return new Graph(matrix);
         }

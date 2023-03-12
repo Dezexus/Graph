@@ -40,7 +40,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="ColumnNumbers" Orientation="Horizontal" Grid.Column="1"/>
                 <StackPanel x:Name="RowNumbers" Orientation="Vertical" Grid.Row="1" Margin="0,6,0,0"/>
-                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="Graph" />
+                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="GraphPanel" />
             </Grid>
         </ScrollViewer>
     </Grid>

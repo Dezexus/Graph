@@ -110,13 +110,13 @@ namespace Windows
             switch (FirstSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    firstGraph = Graph.AdjacencyMatrixToGraph(((AdjacencyMatrixPage)FirstGraphObj).Matrix);
+                    firstGraph = ((AdjacencyMatrixPage)FirstGraphObj).GetGraph();
                     break;
                 case 1:
-                    firstGraph = Graph.IncidenceMatrixToGraph(((IncidenceMatrixPage)FirstGraphObj).Matrix);
+                    firstGraph = ((IncidenceMatrixPage)FirstGraphObj).GetGraph();
                     break;
                 case 2:
-                    firstGraph = new Graph(((GraphAsAlgebraicStructurePage)FirstGraphObj).Matrix);
+                    firstGraph = ((GraphAsAlgebraicStructurePage)FirstGraphObj).GetGraph();
                     break;
                 default:
                     break;
@@ -127,13 +127,13 @@ namespace Windows
             switch (SecondSelectGraphInputMethod.SelectedIndex) {
 
                 case 0:
-                    secondGraph = Graph.AdjacencyMatrixToGraph(((AdjacencyMatrixPage)SecondGraphObj).Matrix);
+                    secondGraph = ((AdjacencyMatrixPage)SecondGraphObj).GetGraph();
                     break;
                 case 1:
-                    secondGraph = Graph.IncidenceMatrixToGraph(((IncidenceMatrixPage)SecondGraphObj).Matrix);
+                    secondGraph = ((IncidenceMatrixPage)SecondGraphObj).GetGraph();
                     break;
                 case 2:
-                    secondGraph = new Graph(((GraphAsAlgebraicStructurePage)SecondGraphObj).Matrix);
+                    secondGraph = ((GraphAsAlgebraicStructurePage)SecondGraphObj).GetGraph();
                     break;
                 default:
                     break;
@@ -148,7 +148,7 @@ namespace Windows
         }
 
         /// <summary>
-        /// Проверяет правильность заполнения графов и определяет доступность VisualizationBtn
+        /// Определяет доступность VisualizationBtn
         /// </summary>
         private void IsVisualizationBtn(object sender, EventArgs e) {
 
@@ -157,14 +157,12 @@ namespace Windows
                 VisualizationBtn.IsEnabled = false;
                 return;
             }
-
+                
             List<Graph> graphs = GetAllGraph();
-            if (graphs[0] != null && graphs[1] != null) { 
-                if (!graphs[0].ExistEdges() || !graphs[1].ExistEdges()) {
+            if (graphs[0] == null || graphs[1] == null) {
 
-                    VisualizationBtn.IsEnabled = false;
-                    return;
-                }
+                VisualizationBtn.IsEnabled = false;
+                return;
             }
 
             VisualizationBtn.IsEnabled = true;

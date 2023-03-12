@@ -28,7 +28,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="ColumnNumbers" Orientation="Horizontal" Grid.Column="1"/>
                 <StackPanel x:Name="RowNumbers" Orientation="Vertical" Grid.Row="1" Margin="0,6,0,0"/>
-                <WrapPanel x:Name="Graph" Grid.Row="1" Grid.Column="1"/>
+                <WrapPanel x:Name="GraphPanel" Grid.Row="1" Grid.Column="1"/>
             </Grid>
         </ScrollViewer>
     </Grid>
