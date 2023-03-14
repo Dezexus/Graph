@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Classes
 {
     public class Graph
     {
+
+        #region Fields
+
+        private List<List<short>> adjList;
+        private List<short> colors = new List<short>();
+        private Dictionary<short, short> result = new Dictionary<short, short>();
+
+        #endregion
 
         public Graph(List<List<short>> _graphAsAlgebraicStructurePage) {
 
@@ -138,6 +148,61 @@ namespace Classes
 
             return new Graph(graph);
         }
+
+        /// <summary>
+        /// Создаёт список смежности графа
+        /// </summary>
+        private void CreateAdjList() {
+
+            // изменить размер вектора, чтобы он содержал `n` элементов типа `vector<int>`
+            adjList = new List<List<short>>();
+            for (int i = 0; i <= CountVertex; i++)
+                adjList.Add(new List<short>());
+
+            // добавляем ребра в неориентированный graph
+            for (int i = 1; i < GraphAsAlgebraicStructure.Count; i++) {
+                adjList[GraphAsAlgebraicStructure[i][0]].Add(GraphAsAlgebraicStructure[i][1]);
+                adjList[GraphAsAlgebraicStructure[i][1]].Add(GraphAsAlgebraicStructure[i][0]);
+            }
+
+        }
+
+        /// <summary>
+        /// Раскрышивает вершины графа
+        /// </summary>
+        public void ColorGraph() {
+
+            CreateAdjList();
+            for (short i = 1; i <= CountVertex; i++)
+                colors.Add(i);
+            // отслеживаем цвет, присвоенный каждой вершине
+            result = new Dictionary<short, short>();
+
+            // назначаем цвет вершине одну за другой
+            for (short u = 1; u <= CountVertex; u++) {
+                // устанавливаем для хранения цвета смежных вершин `u`
+                HashSet<short> assigned = new HashSet<short>();
+
+                // проверяем цвета смежных вершин `u` и сохраняем их в наборе
+                foreach (var i in adjList[u]) {
+                    if (result.ContainsKey(i))
+                        assigned.Add(result[i]);
+                }
+
+                // проверяем первый свободный цвет
+                short color = 1;
+                foreach (var c in assigned) {
+                    if (color != c)
+                        break;
+                    color++;
+                }
+
+                // назначаем вершине `u` первый доступный цвет
+                result[u] = color;
+            }
+        }
+
+        public short GetColorNumberByVertexNumber(short vertexNumber) => colors[result[vertexNumber]];
 
         #endregion
 

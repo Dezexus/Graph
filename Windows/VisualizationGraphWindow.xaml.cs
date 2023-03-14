@@ -21,6 +21,7 @@ namespace Windows
         {
             InitializeComponent();
             _Graph = graph;
+            
         }
 
         #region Events
@@ -63,6 +64,10 @@ namespace Windows
                 line.SetResourceReference(Line.StrokeProperty, "Edge.Static.Border");
                 Lines.Add(line);
             }
+
+            _Graph.ColorGraph();
+            foreach (var ellipse in Vertexes)
+                ellipse.Vertex.Fill = new SolidColorBrush(ColorGenerator.GetRandColor(_Graph.GetColorNumberByVertexNumber(ellipse.Number)));
 
             //Вывод рёбер, петель и вершин на экран
             foreach (var line in Lines)

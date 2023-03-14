@@ -5,12 +5,9 @@ namespace Classes
 {
     internal class ColorGenerator
     {
-        private static int Count = 0; 
+        public static Color GetRandColor(short vertexNumber) {
 
-        public static Color GetRandColor() {
-
-            Count++;
-            var random = new Random(Count);
+            var random = new Random(vertexNumber);
             byte[] colorBytes = new byte[3];
             colorBytes[0] = (byte)(random.Next(128) + 127);
             colorBytes[1] = (byte)(random.Next(128) + 127);
