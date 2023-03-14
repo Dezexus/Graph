@@ -7,13 +7,13 @@ using Windows;
 
 namespace UserControls
 {
-    public partial class EllipseWithNumber : UserControl
+    public partial class VertexWithNumber : UserControl
     {
         private VisualizationGraphWindow _Owner;
         public short Number { get; private set; }
 
 
-        public EllipseWithNumber(double _width, double _height, double desiredCenterX, double desiredCenterY, string hexColor, short _number, VisualizationGraphWindow _owner)
+        public VertexWithNumber(double _width, double _height, double desiredCenterX, double desiredCenterY, short _number, VisualizationGraphWindow _owner)
         {
             InitializeComponent();
             _Owner = _owner;
