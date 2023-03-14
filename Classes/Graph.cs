@@ -154,13 +154,13 @@ namespace Classes
         /// </summary>
         private void CreateAdjList() {
 
-            // изменить размер вектора, чтобы он содержал `n` элементов типа `vector<int>`
             adjList = new List<List<short>>();
             for (int i = 0; i <= CountVertex; i++)
                 adjList.Add(new List<short>());
 
             // добавляем ребра в неориентированный graph
             for (int i = 1; i < GraphAsAlgebraicStructure.Count; i++) {
+
                 adjList[GraphAsAlgebraicStructure[i][0]].Add(GraphAsAlgebraicStructure[i][1]);
                 adjList[GraphAsAlgebraicStructure[i][1]].Add(GraphAsAlgebraicStructure[i][0]);
             }
@@ -182,16 +182,17 @@ namespace Classes
             for (short u = 1; u <= CountVertex; u++) {
                 // устанавливаем для хранения цвета смежных вершин `u`
                 HashSet<short> assigned = new HashSet<short>();
-
+                
                 // проверяем цвета смежных вершин `u` и сохраняем их в наборе
                 foreach (var i in adjList[u]) {
                     if (result.ContainsKey(i))
                         assigned.Add(result[i]);
                 }
-
+                var sortAssigned = new List<short>(assigned);
+                sortAssigned.Sort();
                 // проверяем первый свободный цвет
                 short color = 1;
-                foreach (var c in assigned) {
+                foreach (var c in sortAssigned) {
                     if (color != c)
                         break;
                     color++;
@@ -216,10 +217,10 @@ namespace Classes
         public static Graph operator +(Graph graph1, Graph graph2) {
 
             graph1.CountingDegreesVertices();
-            graph2.CountingDegreesVertices();
+            //graph2.CountingDegreesVertices();
             short vertexCount = graph1.CountVertex;
             var matrix = new List<List<short>> {
-                new List<short>() { (short)(graph1.CountVertex + graph2.CountVertex) }
+                new List<short>() { (short)(graph1.CountVertex/* + graph2.CountVertex*/) }
             };
 
             for (short i = 1; i < graph1.GraphAsAlgebraicStructure.Count; i++) {
@@ -229,7 +230,7 @@ namespace Classes
                 matrix.Add(new List<short> { vertex1, vertex2 });
             }
 
-            for (short i = 1; i < graph2.GraphAsAlgebraicStructure.Count; i++) {
+/*            for (short i = 1; i < graph2.GraphAsAlgebraicStructure.Count; i++) {
 
                 short vertex1 = (short)(graph2.GraphAsAlgebraicStructure[i][0] + vertexCount);
                 short vertex2 = (short)(graph2.GraphAsAlgebraicStructure[i][1] + vertexCount);
@@ -237,7 +238,7 @@ namespace Classes
             }
             short vertex3 = graph1.SearchVertexWithMaxDegree();
             short vertex4 = (short)(graph2.SearchVertexWithMaxDegree() + vertexCount);
-            matrix.Add(new List<short> { vertex3, vertex4 });
+            matrix.Add(new List<short> { vertex3, vertex4 });*/
 
             return new Graph(matrix);
         }
