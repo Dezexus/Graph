@@ -12,7 +12,7 @@ namespace Windows
     public partial class VisualizationGraphWindow : Window
     {
         private Graph _Graph; //Содержит граф как алгебраическую структуру, где m[0][0] - кол-во вершин
-        private List<EllipseWithNumber> Vertexes = new List<EllipseWithNumber>(); //Вершины графа
+        private List<VertexWithNumber> Vertexes = new List<VertexWithNumber>(); //Вершины графа
         private List<Line> Lines = new List<Line>(); //Рёбра графа
         private Dictionary<short, Ellipse> Loops = new Dictionary<short, Ellipse>();//Петли графа (в случаи, если они существуют)
         private double Scale = 1;//Масштаб графа
@@ -41,7 +41,7 @@ namespace Windows
                 double x = centerX + radius * Math.Cos(angle);
                 double y = centerY + radius * Math.Sin(angle);
 
-                var vertex = new EllipseWithNumber(50, 50, x, y, "#888888", i, this);
+                var vertex = new VertexWithNumber(50, 50, x, y, i, this);
                 Vertexes.Add(vertex);
             }
 
@@ -65,18 +65,8 @@ namespace Windows
                 Lines.Add(line);
             }
 
-            _Graph.ColorGraph();
-            foreach (var ellipse in Vertexes)
-                ellipse.Vertex.Fill = new SolidColorBrush(ColorGenerator.GetRandColor(_Graph.GetColorNumberByVertexNumber(ellipse.Number)));
-
-            //Вывод рёбер, петель и вершин на экран
-            foreach (var line in Lines)
-                Canva.Children.Add(line);
-            foreach (var loop in Loops)
-                Canva.Children.Add(loop.Value);
-            foreach (var ellipse in Vertexes)
-                Canva.Children.Add(ellipse);
-
+            GraphColoring();
+            GraphOutputCanvas();
         }
         /// <summary>
         /// Изменение масштаба графа при прокрутке колеса мыши
@@ -101,7 +91,7 @@ namespace Windows
         /// </summary>
         public void Vertex_MouseEnter(object sender, MouseEventArgs e) {
 
-            var vertex = (EllipseWithNumber)sender;
+            var vertex = (VertexWithNumber)sender;
 
             for (int i = 0; i < Lines.Count; i++) {
 
@@ -118,7 +108,7 @@ namespace Windows
         /// </summary>
         public void Vertex_MouseLeave(object sender, MouseEventArgs e) {
 
-            var vertex = (EllipseWithNumber)sender;
+            var vertex = (VertexWithNumber)sender;
 
             for (int i = 0; i < Lines.Count; i++) {
 
@@ -189,10 +179,31 @@ namespace Windows
             return ellipse;
         }
 
+        /// <summary>
+        /// Расскраска вершин графа
+        /// </summary>
+        private void GraphColoring() {
+
+            _Graph.ColorGraph();
+            foreach (var ellipse in Vertexes)
+                ellipse.Vertex.Fill = new SolidColorBrush(ColorGenerator.GetRandColor(_Graph.GetColorNumberByVertexNumber(ellipse.Number)));
+        }
+
+        /// <summary>
+        /// Добавление графа на canvas
+        /// </summary>
+        private void GraphOutputCanvas() {
+
+            //Вывод рёбер, петель и вершин на экран
+            foreach (var line in Lines)
+                Canva.Children.Add(line);
+            foreach (var loop in Loops)
+                Canva.Children.Add(loop.Value);
+            foreach (var ellipse in Vertexes)
+                Canva.Children.Add(ellipse);
+        }
+
         #endregion
-
-        
-
 
     }
 }
